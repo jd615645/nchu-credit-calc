@@ -1,0 +1,16 @@
+extends layout
+block style
+  link(rel='stylesheet', href='./styles/main.css')
+block content
+  #app(v-cloak)
+    include ./nav.pug
+
+    include ./creditCalc.pug
+    include ./chart.pug
+    include ./timetable.pug
+    include ./profile.pug
+
+    include ./footer.pug
+
+block append js
+  script(src='./js/main.js')

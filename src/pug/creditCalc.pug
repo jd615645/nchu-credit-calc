@@ -1,0 +1,46 @@
+#creditCalc.mainPage.container(v-if='activePage == 1')
+  #tot.col-xs-12.calcBlock
+    .circle-progress
+    .calc
+      | {{ totCredit }}
+      | /
+      | {{ totNeedCredit }}
+    .category 總學分
+  #major.col-xs-6.calcBlock
+    .circle-progress
+    .calc
+      | {{ thresholdInfo.major.credit }}
+      | /
+      | {{ thresholdInfo.major.needCredit }}
+    .category 必修
+  #elective.col-xs-6.calcBlock
+    .circle-progress
+    .calc
+      | {{ thresholdInfo.elective.credit }}
+      | /
+      | {{ thresholdInfo.elective.needCredit }}
+    .category 選修
+  #general.col-xs-6.calcBlock
+    .circle-progress
+    .calc
+      | {{ thresholdInfo.general.credit }}
+      | /
+      | {{ thresholdInfo.general.needCredit }}
+    .category 通識
+  #sport.col-xs-6.calcBlock
+    .circle-progress
+    .calc
+      | {{ thresholdInfo.sport.credit }}
+      | /
+      | {{ thresholdInfo.sport.needCredit }}
+    .category 體育
+  #service.col-xs-12.calcBlock
+    .col-xs-8 服務學習
+    .col-xs-4
+      p(v-if='otherThreshold.service') PASS
+      p(v-else) Not PASS
+  #english.col-xs-12.calcBlock
+    .col-xs-8 英文能力檢定
+    .col-xs-4
+      p(v-if='otherThreshold.engilsh') PASS
+      p(v-else) Not PASS

@@ -1,0 +1,181 @@
+@borderColor: #d1d4d7;
+@fontColor: #888;
+@clickColor: #ddd;
+
+body, #app {
+  width: 100vw;
+  position: relative;
+  background-color: #f5f6f7;
+}
+.mainPage {
+  height: 100%;
+  width: 100%;
+  margin: 50px 0;
+}
+h2 {
+  font-size: 1.5em;
+}
+h3 {
+  font-size: 1.2em;
+  margin: 0px;
+}
+p {
+  margin: 0px;
+}
+
+[v-cloak] { display: none; }
+
+nav { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  position: fixed;
+  top: 0;
+  z-index: 2;
+
+  height: 50px;
+  width: 100%;
+  box-shadow: 0 0 5px rgba(0,0,0,.1);
+  
+  background-color: #fff;
+  border-bottom: 1px solid @borderColor;
+
+  header {
+    position: relative;
+    h1 {
+      margin: 0px;
+      font-size: 1.3em;
+      text-align: center;
+    }
+    #setting {
+      margin-right: 5px;
+      font-size: 1.3em;
+      color: @fontColor;
+      position: absolute;
+      top: 0;
+      right: 0;
+      &:hover, &:focus {
+        color: @clickColor;
+      }
+    }
+  }
+}
+footer { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+
+  height: 50px;
+  width: 100%;
+  box-shadow: 5px 0 0 0 rgba(0,0,0,.1);
+  
+  background-color: #fff;
+  border-top: 1px solid @borderColor;
+
+  ul {
+    height: 100%;
+    
+    margin-bottom: 0px;
+    padding-left: 0px;
+    list-style: none;
+    li {
+      float: left;
+      height: 100%;
+      width: 25%;
+      &.active, &.hover, &.focus {
+        p {
+         color: #3498db;
+        }
+      }
+      p {
+        color: @fontColor;
+        text-align: center;
+        margin-bottom: 0px;
+        &:nth-child(1) {
+          font-size: 1.5em !important;
+        }
+      }
+    }
+  }
+}
+
+#creditCalc {
+  &.container {
+    padding: 0px;
+  }
+  .calcBlock {
+    position: relative;
+    &:nth-child(1) {
+      border-bottom: 1px solid @borderColor;
+    }
+    &:nth-child(2) {
+      border-right: 1px solid @borderColor;
+      border-bottom: 1px solid @borderColor;
+    }
+    &:nth-child(5) {
+      border-left: 1px solid @borderColor;
+      border-top: 1px solid @borderColor;
+    }
+    &:nth-child(6), &:nth-child(7) {
+      border-top: 1px solid @borderColor;
+    }
+    .category {
+      position: absolute;
+      top: 5px;
+
+      font-size: 1.3em;
+    }
+  }
+  #tot {
+    .calc {
+      font-size: 1.8em;
+    }
+  }
+  .calc {
+    font-size: 1.5em;
+    text-align: center;
+  }
+  #service, #english {
+    font-size: 1.3em;
+    padding: 10px 0px;
+  }
+}
+
+.circle-progress {
+  .highcharts-credits {
+    display: none;
+  }
+  .timer {
+    display: none;
+  }
+  svg g {
+    display: none;
+  }
+}
+
+#timetable {
+  .title {
+    font-size: 1.5em;
+    text-align: center;
+  }
+  table {
+    width: 100%;
+  }
+  th {
+    width: 19%;
+    &:first-child {
+      width: 5%;
+    }
+  }
+  th, td {
+    border: 1px #666 solid;
+    text-align: center;
+    color: #666;
+    height: 30px;
+  }
+}

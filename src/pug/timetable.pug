@@ -1,0 +1,12 @@
+#timetable.mainPage.container(v-if='activePage == 3')
+  h1.title
+    | 103
+    | 上學期
+  table
+    thead
+      tr
+        th(v-for='day in ["", "一", "二", "三", "四", "五"]') {{ day }}
+    tbody
+      tr(v-for='index in Array(9)')
+        td 1
+        td(v-for='index in Array(5)') {{ index }}
