@@ -1,6 +1,7 @@
 @borderColor: #d1d4d7;
 @fontColor: #888;
 @clickColor: #ddd;
+@notpass: #FF4545;
 
 body, #app {
   width: 100vw;
@@ -168,6 +169,57 @@ footer {
   }
 }
 
+#list {
+  ul {
+    height: 100%;
+    
+    margin-bottom: 0px;
+    padding-left: 0px;
+    list-style: none;
+    li {
+      display: flex;
+      align-items: center;
+      color: @fontColor;
+
+      padding: 5px 0px;
+      
+      border-bottom: 1px solid @borderColor;
+      &:first-child {
+        border-top: 1px solid @borderColor;
+      }
+      &.notpass {
+        color: @notpass;
+      }
+      .list-text {
+        height: 40px;
+        width: 80%;
+      }
+      .list-credit, .list-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 40px;
+        width: 10%;
+        border-left: 1px solid @borderColor;
+      }
+      .list-icon {
+        border-right: 1px solid @borderColor;
+      }
+      .title {
+        font-size: 1.2em;
+        padding-bottom: 5px;
+      }
+      .subject {
+        font-size: 1em;
+      }
+      p {
+        text-align: center;
+      }
+    }
+  }
+}
+
 #timetable {
   .title {
     font-size: 1.5em;
@@ -187,5 +239,10 @@ footer {
     text-align: center;
     color: #666;
     height: 30px;
+  }
+}
+.courseInfo {
+  li {
+    text-align: left;
   }
 }

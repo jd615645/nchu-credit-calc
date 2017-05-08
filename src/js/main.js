@@ -44,9 +44,13 @@ var vm = new Vue({
         $.each(data, (key, val) => {
           let year = _.toString(val['學年']) + _.toString(val['學期'])
           let subject = val['所屬項目']
+          if (!_.has(this.creditSummary, [year, 'total'])) {
+            _.setWith(this.creditSummary, [year, 'total'], [], Object)
+          }
           if (!_.has(this.creditSummary, [year, subject])) {
             _.setWith(this.creditSummary, [year, subject], [], Object)
           }
+          this.creditSummary[year]['total'].push(val)
           this.creditSummary[year][subject].push(val)
         })
         this.calcCredit()
@@ -55,39 +59,39 @@ var vm = new Vue({
     },
     calcCredit() {
       $.each(this.creditSummary, (ik, iv) => {
-        $.each(this.creditSummary[ik], (jk, jv) => {
-          $.each(this.creditSummary[ik][jk], (kk, kv) => {
-            if (jk === '英文畢業門檻') {
-              let english = this.otherThreshold.english
-              if (kv['成績'] >= 60) {
-                english = true
-              }
-            }
-            else if (jk === '服務學習') {
-              let service = this.otherThreshold.service
-              if (kv['成績'] < 60) {
-                service = false
-              }
-            } else {
-              let type
-              if (jk === '本系專業必修課程') {
-                type = this.thresholdInfo.major
-              }
-              else if (jk === '本系選修課程') {
-                type = this.thresholdInfo.elective
-              }
-              else if (jk.search('通識') !== -1 || jk === '大學國文' || jk === '大一英文') {
-                type = this.thresholdInfo.general
-              }else {
-                type = this.thresholdInfo.other
-              }
+        $.each(iv['total'], (jk, jv) => {
+          let project = jv['所屬項目']
 
-              if (kv['成績'] >= 60) {
-                type.credit += kv['畢業學分']
-              }
-              type.course.push(kv)
+          if (project === '英文畢業門檻') {
+            let english = this.otherThreshold.english
+            if (jv['成績'] >= 60) {
+              english = true
             }
-          })
+          }
+          else if (project === '服務學習') {
+            let service = this.otherThreshold.service
+            if (jv['成績'] < 60) {
+              service = false
+            }
+          } else {
+            let type
+            if (project === '本系專業必修課程') {
+              type = this.thresholdInfo.major
+            }
+            else if (project === '本系選修課程') {
+              type = this.thresholdInfo.elective
+            }
+            else if (project.search('通識') !== -1 || project === '大學國文' || project === '大一英文') {
+              type = this.thresholdInfo.general
+            } else {
+              type = this.thresholdInfo.other
+            }
+
+            if (jv['成績'] >= 60) {
+              type.credit += jv['畢業學分']
+            }
+            type.course.push(jv)
+          }
         })
       })
     },
@@ -164,6 +168,7 @@ var vm = new Vue({
           let caredit = parseInt(inputVal)
 
           if (inputVal === false) return false
+
           if (!_.isNaN(caredit) && caredit > 0) {
             if (type === '必修') {
               this.thresholdInfo.major.needCredit = caredit
@@ -171,13 +176,22 @@ var vm = new Vue({
             else if (type === '選修') {
               this.thresholdInfo.elective.needCredit = caredit
             }
-          }else {
+          } else {
             swal.showInputError('請填寫正確數值!')
             return false
           }
 
           swal('修改成功', '已經將畢業' + type + '學分修改為' + caredit + '學分', 'success')
         })
+    },
+    getCourseInfo(info) {
+      let html = '<ul class="courseInfo"><li>學年：' + info['學年'] + '</li><li>學期：' + info['學期'] + '</li><li>選課號碼：' + info['選課號碼'] + '</li><li>課程名稱：' + info['課程名稱'] + '</li><li>開課系所：' + info['開課系所'] + '</li><li>學分：' + info['畢業學分'] + '</li><li>成績：' + info['成績'] + '</li><li>所屬項目：' + info['所屬項目'] + '</li></ul>'
+
+      swal({
+        title: '詳細資料',
+        text: html,
+        html: true
+      })
     }
   }
 })
