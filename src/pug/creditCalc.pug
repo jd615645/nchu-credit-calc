@@ -12,6 +12,7 @@
       | {{ thresholdInfo.major.credit }}
       | /
       | {{ thresholdInfo.major.needCredit }}
+    i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("必修")')
     .category 必修
   #elective.col-xs-6.calcBlock
     .circle-progress
@@ -19,6 +20,7 @@
       | {{ thresholdInfo.elective.credit }}
       | /
       | {{ thresholdInfo.elective.needCredit }}
+    i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("選修")')
     .category 選修
   #general.col-xs-6.calcBlock
     .circle-progress
@@ -35,12 +37,13 @@
       | {{ thresholdInfo.sport.needCredit }}
     .category 體育
   #service.col-xs-12.calcBlock
-    .col-xs-8 服務學習
-    .col-xs-4
+    .col-xs-7 服務學習
+    .col-xs-5
       p(v-if='otherThreshold.service') PASS
       p(v-else) Not PASS
   #english.col-xs-12.calcBlock
-    .col-xs-8 英文能力檢定
-    .col-xs-4
+    .col-xs-7 英文能力檢定
+    .col-xs-5
       p(v-if='otherThreshold.engilsh') PASS
       p(v-else) Not PASS
+
