@@ -169,11 +169,26 @@ footer {
   }
 }
 
-#list {
+#subjectList {
+  h3 {
+    font-size: 1.3em;
+    padding: 10px 0px;
+  }
+  .subjectInfo {
+    display: flex;
+  }
+  .subjectTitle, .subjectList {
+    width: 50%;
+  }
+  .subjectList {
+    text-align: right;
+  }
+}
+
+#list, #subjectList {
   ul {
     height: 100%;
     
-    margin-bottom: 0px;
     padding-left: 0px;
     list-style: none;
     li {
@@ -191,7 +206,7 @@ footer {
         color: @notpass;
       }
       .list-text {
-        height: 40px;
+        height: 50px;
         width: 80%;
       }
       .list-credit, .list-icon {
@@ -199,7 +214,7 @@ footer {
         align-items: center;
         justify-content: center;
 
-        height: 40px;
+        height: 50px;
         width: 10%;
         border-left: 1px solid @borderColor;
       }
@@ -212,6 +227,9 @@ footer {
       }
       .subject {
         font-size: 1em;
+      }
+      .title, .subject {
+        text-align: left;
       }
       p {
         text-align: center;

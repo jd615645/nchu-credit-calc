@@ -1,0 +1,16 @@
+#subjectList.mainPage.container(v-if='activePage == 5')
+  .subjectInfo
+    h3.subjectTitle {{ subjectTitle }}
+    h3.subjectList
+      | {{ subjectList.credit }}
+      | /
+      | {{ subjectList.needCredit }}
+  ul
+    li(v-for='(courseData, key) in subjectList.course', v-bind:class='{ notpass: courseData["成績"] < 60 }', v-on:click='getCourseInfo(courseData)', )
+      .list-text
+        p.title {{ courseData['課程名稱'] }}
+        p.subject {{ courseData['所屬項目'] }}
+      .list-credit
+        p.credit {{ courseData['畢業學分'] }}
+      .list-icon
+        p.fa.fa-search

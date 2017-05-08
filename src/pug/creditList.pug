@@ -4,7 +4,7 @@
     ul
       li(v-for='(courseData, jk) in iv["total"]', v-bind:class='{ notpass: courseData["成績"] < 60 }', v-on:click='getCourseInfo(courseData)')
         .list-text
-          h3.title {{ courseData['課程名稱'] }}
+          p.title {{ courseData['課程名稱'] }}
           p.subject {{ courseData['所屬項目'] }}
         .list-credit
           p.credit {{ courseData['畢業學分'] }}

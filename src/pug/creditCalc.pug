@@ -1,12 +1,12 @@
 #creditCalc.mainPage.container(v-if='activePage == 1')
-  #tot.col-xs-12.calcBlock
+  #tot.col-xs-12.calcBlock(v-on:click='switchPage(2)')
     .circle-progress
     .calc
       | {{ totCredit }}
       | /
       | {{ totNeedCredit }}
     .category 總學分
-  #major.col-xs-6.calcBlock
+  #major.col-xs-6.calcBlock(v-on:click='showList("major")')
     .circle-progress
     .calc
       | {{ thresholdInfo.major.credit }}
@@ -14,7 +14,7 @@
       | {{ thresholdInfo.major.needCredit }}
     i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("必修")')
     .category 必修
-  #elective.col-xs-6.calcBlock
+  #elective.col-xs-6.calcBlock(v-on:click='showList("elective")')
     .circle-progress
     .calc
       | {{ thresholdInfo.elective.credit }}
@@ -22,14 +22,14 @@
       | {{ thresholdInfo.elective.needCredit }}
     i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("選修")')
     .category 選修
-  #general.col-xs-6.calcBlock
+  #general.col-xs-6.calcBlock(v-on:click='showList("general")')
     .circle-progress
     .calc
       | {{ thresholdInfo.general.credit }}
       | /
       | {{ thresholdInfo.general.needCredit }}
     .category 通識
-  #sport.col-xs-6.calcBlock
+  #sport.col-xs-6.calcBlock(v-on:click='showList("sport")')
     .circle-progress
     .calc
       | {{ thresholdInfo.sport.credit }}

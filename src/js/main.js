@@ -4,8 +4,10 @@ var vm = new Vue({
     return {
       thresholdInfo: { major: { credit: 0, needCredit: 68, course: [] }, elective: { credit: 0, needCredit: 32, course: [] }, general: { credit: 0, needCredit: 30, course: [] }, sport: { credit: 0, needCredit: 4, course: [] }, other: { credit: 0, needCredit: 0, course: [] }},
       otherThreshold: { service: true, english: false },
-      creditSummary: {},
       circleOption: {animation: 1, animationStep: 5, foregroundBorderWidth: 5, backgroundBorderWidth: 1, iconColor: '#3498DB', iconSize: '40', iconPosition: 'middle'},
+      creditSummary: {},
+      subjectTitle: '',
+      subjectList: [],
       activePage: 1
     }
   },
@@ -35,6 +37,7 @@ var vm = new Vue({
       else if (this.activePage === 2) return '學分列表'
       else if (this.activePage === 3) return '課表'
       else if (this.activePage === 4) return '個人資料'
+      else if (this.activePage === 5) return '項目列表'
     }
   },
   methods: {
@@ -192,6 +195,15 @@ var vm = new Vue({
         text: html,
         html: true
       })
+    },
+    showList(type) {
+      this.activePage = 5
+      this.subjectList = this.thresholdInfo[type]
+
+      if (type === 'major') this.subjectTitle = '必修'
+      else if (type === 'elective') this.subjectTitle = '選修'
+      else if (type === 'general') this.subjectTitle = '通識'
+      else if (type === 'sport') this.subjectTitle = '體育'
     }
   }
 })
