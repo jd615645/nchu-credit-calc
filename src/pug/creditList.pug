@@ -1,6 +1,6 @@
 #list.mainPage.container(v-if='activePage == 2')
   div(v-for='(iv, years) in creditSummary')
-    h2.year(v-bind:id='years') {{ years }}
+    h2.year(v-bind:id='years') {{ years }} 學期
     ul
       li(v-for='(courseData, jk) in iv["total"]', v-bind:class='{ notpass: courseData["成績"] < 60 }', v-on:click='getCourseInfo(courseData)')
         .list-text

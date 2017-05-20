@@ -1,0 +1,8 @@
+#login(v-if='activePage == 0')
+  form(@submit='login', action='#' method='POST')
+    input(placeholder='學號', type='text', name='studentID', required, v-model='studentId')
+    input(placeholder='密碼', type='password', name='studentPW', required, v-model='studentPw')
+    .hint 帳號密碼與學校系統相同
+    button(v-on:click='loading')
+      | 登入
+    i.loading.fa.fa-spinner.fa-pulse.fa-3x.fa-fw

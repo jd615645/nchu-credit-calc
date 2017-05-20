@@ -6,13 +6,43 @@ var vm = new Vue({
       otherThreshold: { service: true, english: false },
       circleOption: {animation: 1, animationStep: 5, foregroundBorderWidth: 5, backgroundBorderWidth: 1, iconColor: '#3498DB', iconSize: '40', iconPosition: 'middle'},
       creditSummary: {},
+      courseCode: {},
       subjectTitle: '',
       subjectList: [],
-      activePage: 1
+      activePage: 0,
+      tableView: 9,
+      studentId: '',
+      studentPw: '',
     }
   },
   mounted() {
-    this.getData()
+    // 學士班->U, 碩班->G, 夜校->N, 其他->O
+    let careerType = ['U', 'G', 'N', 'O']
+    let careerRequest = []
+
+    $.each(careerType, (key, val) => {
+      careerRequest.push($.getJSON('../data/career_' + val + '.json'))
+    })
+    $.when
+      .apply($, careerRequest)
+      .then((...careerData) => {
+        $.each(careerData, (ik, iv) => {
+          $.each(iv[0]['course'], (jk, course) => {
+            _.setWith(this.courseCode, [course.code], course, Object)
+          })
+        })
+      })
+
+    // // debug loading
+    // if (!_.isUndefined(window.localStorage['creditSummary'])) {
+    //   this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
+    // }else {
+    //   this.getDataDebug()
+    // }
+    // this.calcCredit()
+    // setTimeout(() => {
+    //   this.progressInit()
+    // }, 50)
   },
   computed: {
     totCredit() {
@@ -38,13 +68,31 @@ var vm = new Vue({
       else if (this.activePage === 3) return '課表'
       else if (this.activePage === 4) return '個人資料'
       else if (this.activePage === 5) return '項目列表'
+    },
+    parseCourse() {
+      let schedule = _.map(Array(13), () => {
+        return _.map(Array(5), () => [{}, 0])
+      })
+      let years = _.max(_.keys(this.creditSummary))
+
+      $.each(this.creditSummary[years]['total'], (key, val) => {
+        let code = val['選課號碼']
+        let course = this.courseCode[code]
+        $.each(course['time_parsed'], (ik, iv) => {
+          $.each(iv.time, (jk, jv) => {
+            let day = iv.day
+            let time = jv
+            schedule[time - 1][day - 1] = course['title_parsed']['zh_TW']
+          })
+        })
+      })
+      return schedule
     }
   },
   methods: {
-    getData() {
-      // debug
-      $.getJSON('./data/list.json', (data) => {
-        $.each(data, (key, val) => {
+    getDataDebug() {
+      $.getJSON('../data/list.json', (inputData) => {
+        $.each(inputData, (key, val) => {
           let year = _.toString(val['學年']) + _.toString(val['學期'])
           let subject = val['所屬項目']
           if (!_.has(this.creditSummary, [year, 'total'])) {
@@ -57,7 +105,26 @@ var vm = new Vue({
           this.creditSummary[year][subject].push(val)
         })
         this.calcCredit()
-        this.progressInit()
+        setTimeout(() => {
+          this.progressInit()
+        }, 50)
+        this.saveToStorage()
+      })
+    },
+    getData(data) {
+      $.each(data, (key, val) => {
+        let year = _.toString(val['學年']) + _.toString(val['學期'])
+        let subject = val['所屬項目']
+        if (!_.has(this.creditSummary, [year, 'total'])) {
+          _.setWith(this.creditSummary, [year, 'total'], [], Object)
+        }
+        if (!_.has(this.creditSummary, [year, subject])) {
+          _.setWith(this.creditSummary, [year, subject], [], Object)
+        }
+        this.creditSummary[year]['total'].push(val)
+        this.creditSummary[year][subject].push(val)
+
+        this.saveToStorage()
       })
     },
     calcCredit() {
@@ -158,7 +225,8 @@ var vm = new Vue({
         }, 50)
       }
     },
-    editNeedCrredit(type) {
+    editNeedCrredit(type, event) {
+      event.stopPropagation()
       swal({
         title: '修改畢業' + type + '學分',
         type: 'input',
@@ -204,6 +272,48 @@ var vm = new Vue({
       else if (type === 'elective') this.subjectTitle = '選修'
       else if (type === 'general') this.subjectTitle = '通識'
       else if (type === 'sport') this.subjectTitle = '體育'
+    },
+    login(e) {
+      e.preventDefault()
+      let url = 'http://127.0.0.1:3000/login'
+      let loginData = {
+        'id': this.studentId,
+        'pw': this.studentPw
+      }
+
+      $.post(url, loginData, (inputData) => {
+        this.activePage = 1
+
+        if (!_.isUndefined(window.localStorage['creditSummary'])) {
+        }else {
+          this.getData(JSON.parse(inputData))
+        }
+        this.calcCredit()
+        setTimeout(() => {
+          this.progressInit()
+        }, 50)
+
+        $('#login button').show()
+        $('.loading').css('opacity', 0)
+      })
+    },
+    logout() {
+      this.activePage = 0
+      this.clearStorage()
+
+      this.thresholdInfo = { major: { credit: 0, needCredit: 68, course: [] }, elective: { credit: 0, needCredit: 32, course: [] }, general: { credit: 0, needCredit: 30, course: [] }, sport: { credit: 0, needCredit: 4, course: [] }, other: { credit: 0, needCredit: 0, course: [] }}
+      this.otherThreshold = { service: true, english: false }
+      this.creditSummary = {}
+    },
+    loading() {
+      $('#login button').fadeOut()
+      $('.loading').css('opacity', 1)
+    },
+    saveToStorage() {
+      window.localStorage['creditSummary'] = JSON.stringify(this.creditSummary)
+    },
+    clearStorage() {
+      localStorage.removeItem('creditSummary')
     }
   }
 })

@@ -6,36 +6,45 @@
       | /
       | {{ totNeedCredit }}
     .category 總學分
-  #major.col-xs-6.calcBlock(v-on:click='showList("major")')
-    .circle-progress
-    .calc
-      | {{ thresholdInfo.major.credit }}
-      | /
-      | {{ thresholdInfo.major.needCredit }}
-    i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("必修")')
-    .category 必修
-  #elective.col-xs-6.calcBlock(v-on:click='showList("elective")')
-    .circle-progress
-    .calc
-      | {{ thresholdInfo.elective.credit }}
-      | /
-      | {{ thresholdInfo.elective.needCredit }}
-    i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("選修")')
-    .category 選修
-  #general.col-xs-6.calcBlock(v-on:click='showList("general")')
-    .circle-progress
-    .calc
-      | {{ thresholdInfo.general.credit }}
-      | /
-      | {{ thresholdInfo.general.needCredit }}
-    .category 通識
-  #sport.col-xs-6.calcBlock(v-on:click='showList("sport")')
-    .circle-progress
-    .calc
-      | {{ thresholdInfo.sport.credit }}
-      | /
-      | {{ thresholdInfo.sport.needCredit }}
-    .category 體育
+  table
+    tr
+      td#major.calcBlock(v-on:click='showList("major")')
+        .circle-progress
+        .calc
+          | {{ thresholdInfo.major.credit }}
+          | /
+          | {{ thresholdInfo.major.needCredit }}
+        i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("必修", $event)')
+        .category 必修
+      td#elective.calcBlock(v-on:click='showList("elective")')
+        .circle-progress
+        .calc
+          | {{ thresholdInfo.elective.credit }}
+          | /
+          | {{ thresholdInfo.elective.needCredit }}
+        i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("選修", $event)')
+        .category 選修
+    tr
+      td#general.calcBlock(v-on:click='showList("general")')
+        .circle-progress
+        .calc
+          | {{ thresholdInfo.general.credit }}
+          | /
+          | {{ thresholdInfo.general.needCredit }}
+        .category 通識
+      td#sport.calcBlock(v-on:click='showList("sport")')
+        .circle-progress
+        .calc
+          | {{ thresholdInfo.sport.credit }}
+          | /
+          | {{ thresholdInfo.sport.needCredit }}
+        .category 體育
+  #other.col-xs-12.calcBlock
+    .col-xs-7 其他課程
+    .col-xs-5
+      p
+        | {{ thresholdInfo.other.credit }}
+        | 學分
   #service.col-xs-12.calcBlock
     .col-xs-7 服務學習
     .col-xs-5

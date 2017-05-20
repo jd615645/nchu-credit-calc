@@ -7,6 +7,8 @@
       tr
         th(v-for='day in ["", "一", "二", "三", "四", "五"]') {{ day }}
     tbody
-      tr(v-for='index in Array(9)')
-        td 1
-        td(v-for='index in Array(5)') {{ index }}
+      tr(v-for='(course, index) in parseCourse', v-if='index < tableView')
+        td {{ index+1 }}
+        td(v-for='(courseTitle, key) in course')
+          .course(v-if='!_.isEmpty(courseTitle[0])')
+            p {{ courseTitle }}

@@ -1,10 +1,12 @@
 extends layout
 block style
+  link(rel='stylesheet', href='./styles/login.css')
   link(rel='stylesheet', href='./styles/main.css')
 block content
   #app(v-cloak)
     include ./nav.pug
 
+    include ./login.pug
     include ./creditCalc.pug
     include ./creditList.pug
     include ./timetable.pug
