@@ -34,16 +34,15 @@ var vm = new Vue({
         })
       })
 
-  // // debug loading
-  // if (!_.isUndefined(window.localStorage['creditSummary'])) {
-  //   this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
-  // }else {
-  //   this.getDataDebug()
-  // }
-  // this.calcCredit()
-  // setTimeout(() => {
-  //   this.progressInit()
-  // }, 50)
+    if (!_.isUndefined(window.localStorage['creditSummary'])) {
+      this.activePage = 1
+      this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
+
+      this.calcCredit()
+      setTimeout(() => {
+        this.progressInit()
+      }, 50)
+    }
   },
   computed: {
     totCredit() {
@@ -113,7 +112,6 @@ var vm = new Vue({
       })
     },
     getData(data) {
-      console.log(data)
       $.each(data, (key, val) => {
         let year = _.toString(val['學年']) + _.toString(val['學期'])
         let subject = val['所屬項目']
@@ -291,15 +289,10 @@ var vm = new Vue({
       $.post(url, loginData, (inputData) => {
         if (inputData !== 'error') {
           this.activePage = 1
-          if (!_.isUndefined(window.localStorage['creditSummary'])) {
-            this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
-          }else {
-            console.log(inputData)
-            let input = JSON.parse(inputData)
-            console.log(input)
-            this.studentName = input['studentName']
-            this.getData(input['courseList'])
-          }
+
+          let input = JSON.parse(inputData)
+          this.studentName = input['studentName']
+          this.getData(input['courseList'])
           this.calcCredit()
           setTimeout(() => {
             this.progressInit()
