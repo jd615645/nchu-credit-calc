@@ -58,4 +58,5 @@ typings/
 .env
 .vscode
 dest
+dest.zip
 list.json
