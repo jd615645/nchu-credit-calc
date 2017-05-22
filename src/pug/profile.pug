@@ -7,10 +7,10 @@
       .list-text 課表形式
       .list-btn
         .btn-group(data-toggle='buttons')
-          label.btn.active(@click='tableView = 9')
+          label.btn(v-bind:class='{active: tableView == 9}', @click='tableView = 9')
             input#option1(type='radio', name='options', autocomplete='off', checked='')
             | 日間部
-          label.btn(@click='tableView = 13')
+          label.btn(v-bind:class='{active: tableView == 13}', @click='tableView = 13')
             input#option3(type='radio', name='options', autocomplete='off')
             | 日夜間部
 

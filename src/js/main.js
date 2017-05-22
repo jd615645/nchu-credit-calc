@@ -9,11 +9,15 @@ var vm = new Vue({
       courseCode: {},
       subjectTitle: '',
       subjectList: [],
-      activePage: 0,
+      activePage: -1,
       tableView: 9,
+      // profile
       studentId: '',
       studentPw: '',
-      studentName: ''
+      studentName: '',
+      timeTable: _.map(Array(13), () => {
+        return _.map(Array(5), () => [{}, 0])
+      })
     }
   },
   mounted() {
@@ -34,14 +38,20 @@ var vm = new Vue({
         })
       })
 
+    this.timeTable = _.map(Array(13), () => {
+      return _.map(Array(5), () => [{}, 0])
+    })
+
     if (!_.isUndefined(window.localStorage['creditSummary'])) {
       this.activePage = 1
       this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
 
       this.calcCredit()
-      setTimeout(() => {
-        this.progressInit()
-      }, 50)
+    // setTimeout(() => {
+    //   this.progressInit()
+    // }, 50)
+    }else {
+      this.activePage = 0
     }
   },
   computed: {
@@ -68,49 +78,9 @@ var vm = new Vue({
       else if (this.activePage === 3) return '課表'
       else if (this.activePage === 4) return '個人資料'
       else if (this.activePage === 5) return '項目列表'
-    },
-    parseCourse() {
-      let schedule = _.map(Array(13), () => {
-        return _.map(Array(5), () => [{}, 0])
-      })
-      let years = _.max(_.keys(this.creditSummary))
-
-      $.each(this.creditSummary[years]['total'], (key, val) => {
-        let code = val['選課號碼']
-        let course = this.courseCode[code]
-        $.each(course['time_parsed'], (ik, iv) => {
-          $.each(iv.time, (jk, jv) => {
-            let day = iv.day
-            let time = jv
-            schedule[time - 1][day - 1] = course['title_parsed']['zh_TW']
-          })
-        })
-      })
-      return schedule
     }
   },
   methods: {
-    getDataDebug() {
-      $.getJSON('../data/list.json', (inputData) => {
-        $.each(inputData, (key, val) => {
-          let year = _.toString(val['學年']) + _.toString(val['學期'])
-          let subject = val['所屬項目']
-          if (!_.has(this.creditSummary, [year, 'total'])) {
-            _.setWith(this.creditSummary, [year, 'total'], [], Object)
-          }
-          if (!_.has(this.creditSummary, [year, subject])) {
-            _.setWith(this.creditSummary, [year, subject], [], Object)
-          }
-          this.creditSummary[year]['total'].push(val)
-          this.creditSummary[year][subject].push(val)
-        })
-        this.calcCredit()
-        setTimeout(() => {
-          this.progressInit()
-        }, 50)
-        this.saveToStorage()
-      })
-    },
     getData(data) {
       $.each(data, (key, val) => {
         let year = _.toString(val['學年']) + _.toString(val['學期'])
@@ -123,9 +93,12 @@ var vm = new Vue({
         }
         this.creditSummary[year]['total'].push(val)
         this.creditSummary[year][subject].push(val)
-
-        this.saveToStorage()
       })
+      this.calcCredit()
+      this.saveToStorage()
+    // setTimeout(() => {
+    //   this.progressInit()
+    // }, 50)
     },
     calcCredit() {
       $.each(this.creditSummary, (ik, iv) => {
@@ -133,15 +106,13 @@ var vm = new Vue({
           let project = jv['所屬項目']
 
           if (project === '英文畢業門檻') {
-            let english = this.otherThreshold.english
             if (jv['成績'] >= 60) {
-              english = true
+              this.otherThreshold.english = true
             }
           }
           else if (project === '服務學習') {
-            let service = this.otherThreshold.service
             if (jv['成績'] < 60) {
-              service = false
+              this.otherThreshold.service = false
             }
           } else {
             let type
@@ -167,6 +138,9 @@ var vm = new Vue({
           }
         })
       })
+      setTimeout(() => {
+        this.progressInit()
+      }, 50)
     },
     calcPercent(type) {
       let percent = 0
@@ -220,12 +194,19 @@ var vm = new Vue({
       })
     },
     switchPage(num) {
+      console.log(num)
       if (this.activePage !== num) {
         this.activePage = num
         window.scrollTo(0, 0)
         setTimeout(() => {
-          if (num === 1) this.progressInit()
-        }, 50)
+          if (num === 1) {
+            this.progressInit()
+          }
+          else if (num === 3) {
+            console.log('parseCourse')
+            this.parseCourse()
+          }
+        }, 300)
       }
     },
     editNeedCrredit(type, event) {
@@ -259,9 +240,7 @@ var vm = new Vue({
         })
     },
     getCourseInfo(info) {
-      let code = parseInt(info['選課號碼'])
-
-      let html = '<ul class="courseInfo"><li>學年：' + info['學年'] + '</li><li>學期：' + info['學期'] + '</li><li>選課號碼：' + code + '</li><li>課程名稱：' + info['課程名稱'] + '</li><li>開課系所：' + info['開課系所'] + '</li><li>授課教師：' + this.courseCode[code]['professor'] + '</li><li>學分：' + info['畢業學分'] + '</li><li>成績：' + info['成績'] + '</li><li>所屬項目：' + info['所屬項目'] + '</li></ul>'
+      let html = '<ul class="courseInfo"><li>學年：' + info['學年'] + '</li><li>學期：' + info['學期'] + '</li><li>選課號碼：' + info['選課號碼'] + '</li><li>課程名稱：' + info['課程名稱'] + '</li><li>開課系所：' + info['開課系所'] + '</li><li>學分：' + info['畢業學分'] + '</li><li>成績：' + info['成績'] + '</li><li>所屬項目：' + info['所屬項目'] + '</li></ul>'
 
       swal({
         title: '詳細資料',
@@ -278,6 +257,25 @@ var vm = new Vue({
       else if (type === 'general') this.subjectTitle = '通識'
       else if (type === 'sport') this.subjectTitle = '體育'
     },
+    parseCourse() {
+      let schedule = _.map(Array(13), () => {
+        return _.map(Array(5), () => [{}, 0])
+      })
+      let years = _.max(_.keys(this.creditSummary))
+
+      $.each(this.creditSummary[years]['total'], (key, val) => {
+        let code = val['選課號碼']
+        let course = this.courseCode[code]
+        $.each(course['time_parsed'], (ik, iv) => {
+          $.each(iv.time, (jk, jv) => {
+            let day = iv.day
+            let time = jv
+            schedule[time - 1][day - 1] = course['title_parsed']['zh_TW']
+          })
+        })
+      })
+      this.timeTable = schedule
+    },
     login(e) {
       e.preventDefault()
       let url = 'https://login.hsingpicking.com.tw/'
@@ -287,31 +285,32 @@ var vm = new Vue({
       }
 
       $.post(url, loginData, (inputData) => {
-        if (inputData !== 'error') {
+        let input = JSON.parse(inputData)
+        if (inputData !== 'error' && input['studentName'] !== '') {
           this.activePage = 1
 
-          let input = JSON.parse(inputData)
           this.studentName = input['studentName']
           this.getData(input['courseList'])
-          this.calcCredit()
-          setTimeout(() => {
-            this.progressInit()
-          }, 50)
-
-          $('#login button').show()
-          $('.loading').css('opacity', 0)
         }else {
+          this.studentId = ''
+          this.studentPw = ''
           sweetAlert('Oops...', '請確認學號及密碼是否正確', 'error')
         }
+        $('#login button').show()
+        $('.loading').css('opacity', 0)
       })
     },
     logout() {
       this.activePage = 0
-      this.clearStorage()
 
       this.thresholdInfo = { major: { credit: 0, needCredit: 68, course: [] }, elective: { credit: 0, needCredit: 32, course: [] }, general: { credit: 0, needCredit: 30, course: [] }, sport: { credit: 0, needCredit: 4, course: [] }, other: { credit: 0, needCredit: 0, course: [] }}
       this.otherThreshold = { service: true, english: false }
       this.creditSummary = {}
+
+      this.studentId = ''
+      this.studentPw = ''
+
+      this.clearStorage()
     },
     loading() {
       $('#login button').fadeOut()
