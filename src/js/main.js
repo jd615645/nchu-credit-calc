@@ -32,7 +32,6 @@ var vm = new Vue({
     $.each(careerType, (key, val) => {
       careerRequest.push($.getJSON('../data/career_' + val + '.json'))
     })
-
     $.when
       .apply($, careerRequest)
       .then((...careerData) => {
@@ -41,6 +40,7 @@ var vm = new Vue({
             _.setWith(this.courseCode, [course.code], course, Object)
           })
         })
+        
         if (!_.isUndefined(window.localStorage['creditSummary'])) {
           this.activePage = 1
           this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
@@ -94,9 +94,6 @@ var vm = new Vue({
       })
       this.calcCredit()
       this.saveToStorage()
-    // setTimeout(() => {
-    //   this.progressInit()
-    // }, 50)
     },
     calcCredit() {
       $.each(this.creditSummary, (ik, iv) => {
@@ -136,6 +133,7 @@ var vm = new Vue({
           }
         })
       })
+      this.parseCourse()
     },
     calcPercent(type) {
       let percent = 0
@@ -191,16 +189,11 @@ var vm = new Vue({
       })
     },
     switchPage(num) {
-      console.log(num)
       if (this.activePage !== num) {
         this.activePage = num
         window.scrollTo(0, 0)
         if (num === 1) {
           this.progressInit()
-        }
-        else if (num === 3) {
-          console.log('parseCourse')
-          this.parseCourse()
         }
       }
     },
