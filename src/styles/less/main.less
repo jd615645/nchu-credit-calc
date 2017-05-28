@@ -87,7 +87,8 @@ footer {
     li {
       float: left;
       height: 100%;
-      width: 25%;
+      width: 33%;
+      // width: 25%;
       &.active, &.hover, &.focus {
         p {
          color: #3498db;
@@ -102,28 +103,6 @@ footer {
         }
       }
     }
-  }
-}
-
-#login {
-  height: 100vh;
-  width: 100vw;
-
-  position: fixed;
-  z-index: 3;
-
-  background: #eee url('../img/loginbg.png') repeat center center;
-  .loading {
-    margin-top: 10px;
-    color: #444;
-    display: block;
-    margin: 0px auto;
-    opacity: 0;
-
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 25px;
   }
 }
 
@@ -335,15 +314,13 @@ footer {
         border-top: 1px solid @borderColor;
       }
       .list-text {
-        width: 80%;
+        width: 60%;
       }
-      .list-credit, .list-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        width: 10%;
-        border-left: 1px solid @borderColor;
+      .list-info {
+        width: 40%;
+        p {
+          text-align: right;
+        }
       }
       .list-icon {
         border-right: 1px solid @borderColor;
@@ -351,23 +328,14 @@ footer {
       p {
         text-align: center;
       }
+      label {
+        border: 1px solid #3498db;
+        color: #3498db;
+      }
+      .active {
+        background-color: #3498db;
+        color: #eee;
+      }
     }
-  }
-}
-#tableView {
-  label {
-    border: 1px solid #3498db;
-    color: #3498db;
-  }
-  .active {
-    background-color: #3498db;
-    color: #eee;
-  }
-  .list-text {
-    width: 50% !important;
-  }
-  .list-btn {
-    text-align: right;
-    width: 50% !important;
   }
 }

@@ -15,42 +15,53 @@ var vm = new Vue({
       studentId: '',
       studentPw: '',
       studentName: '',
-      timeTable: _.map(Array(13), () => {
-        return _.map(Array(5), () => [{}, 0])
-      })
+      studentDept: '',
+    // timeTable: _.map(Array(13), () => {
+    //   return _.map(Array(5), () => [{}, 0])
+    // })
     }
   },
   mounted() {
     // 學士班->U, 碩班->G, 夜校->N, 其他->O
-    let careerType = ['U', 'G', 'N', 'O']
-    let careerRequest = []
+    // let careerType = ['U', 'G', 'N', 'O']
+    // let careerRequest = []
 
-    this.timeTable = _.map(Array(13), () => {
-      return _.map(Array(5), () => [{}, 0])
-    })
+    setTimeout(() => {
+      if (!_.isUndefined(window.localStorage['creditSummary'])) {
+        this.activePage = 1
+        this.loadStorage()
+        this.calcCredit()
+      }else {
+        this.activePage = 0
+      }
+    }, 500)
 
-    $.each(careerType, (key, val) => {
-      careerRequest.push($.getJSON('../data/career_' + val + '.json'))
-    })
-    $.when
-      .apply($, careerRequest)
-      .then((...careerData) => {
-        $.each(careerData, (ik, iv) => {
-          $.each(iv[0]['course'], (jk, course) => {
-            _.setWith(this.courseCode, [course.code], course, Object)
-          })
-        })
-        
-        if (!_.isUndefined(window.localStorage['creditSummary'])) {
-          this.activePage = 1
-          this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
+    // this.timeTable = _.map(Array(13), () => {
+    //   return _.map(Array(5), () => [{}, 0])
+    // })
 
-          this.calcCredit()
-          this.progressInit()
-        }else {
-          this.activePage = 0
-        }
-      })
+    // $.each(careerType, (key, val) => {
+    //   careerRequest.push($.getJSON('../data/career_' + val + '.json'))
+    // })
+    // $.when
+    //   .apply($, careerRequest)
+    //   .then((...careerData) => {
+    //     $.each(careerData, (ik, iv) => {
+    //       $.each(iv[0]['course'], (jk, course) => {
+    //         _.setWith(this.courseCode, [course.code], course, Object)
+    //       })
+    //     })
+
+    //     if (!_.isUndefined(window.localStorage['creditSummary'])) {
+    //       this.activePage = 1
+    //       this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
+
+  //       this.calcCredit()
+  //       this.progressInit()
+  //     }else {
+  //       this.activePage = 0
+  //     }
+  //   })
   },
   computed: {
     totCredit() {
@@ -133,7 +144,9 @@ var vm = new Vue({
           }
         })
       })
-      this.parseCourse()
+      this.progressInit()
+
+    // this.parseCourse()
     },
     calcPercent(type) {
       let percent = 0
@@ -272,12 +285,17 @@ var vm = new Vue({
         'pw': this.studentPw
       }
 
+      $('#login button').fadeOut()
+      $('.loading').css('opacity', 1)
+
       $.post(url, loginData, (inputData) => {
         let input = JSON.parse(inputData)
         if (inputData !== 'error' && input['studentName'] !== '') {
           this.activePage = 1
-
+          
+          console.log(input)
           this.studentName = input['studentName']
+          this.studentDept = input['studentDept']
           this.getData(input['courseList'])
         }else {
           this.studentId = ''
@@ -300,14 +318,22 @@ var vm = new Vue({
 
       this.clearStorage()
     },
-    loading() {
-      $('#login button').fadeOut()
-      $('.loading').css('opacity', 1)
-    },
     saveToStorage() {
+      window.localStorage['studentId'] = JSON.stringify(this.studentId)
+      window.localStorage['studentName'] = JSON.stringify(this.studentName)
+      window.localStorage['studentDept'] = JSON.stringify(this.studentDept)
       window.localStorage['creditSummary'] = JSON.stringify(this.creditSummary)
     },
+    loadStorage() {
+      this.studentId = JSON.parse(window.localStorage['studentId'])
+      this.studentName = JSON.parse(window.localStorage['studentName'])
+      this.studentDept = JSON.parse(window.localStorage['studentDept'])
+      this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
+    },
     clearStorage() {
+      localStorage.removeItem('studentId')
+      localStorage.removeItem('studentName')
+      localStorage.removeItem('studentDept')
       localStorage.removeItem('creditSummary')
     }
   }

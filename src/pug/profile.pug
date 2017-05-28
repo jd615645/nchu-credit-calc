@@ -1,17 +1,26 @@
 #profile.mainPage.container(v-if='activePage == 4')
   ul
     li
-      p.name {{ studentName }} {{ studentId }}
-      p.dept 資工系
-    li#tableView
-      .list-text 課表形式
-      .list-btn
-        .btn-group(data-toggle='buttons')
-          label.btn(v-bind:class='{active: tableView == 9}', @click='tableView = 9')
-            input#option1(type='radio', name='options', autocomplete='off', checked='')
-            | 日間部
-          label.btn(v-bind:class='{active: tableView == 13}', @click='tableView = 13')
-            input#option3(type='radio', name='options', autocomplete='off')
-            | 日夜間部
+      .list-text 姓名
+      .list-info
+        p {{ studentName }}
+    li
+      .list-text 學號
+      .list-info
+        p {{ studentId }}
+    li
+      .list-text 科系
+      .list-info
+        p {{ studentDept }}
+    //- li#tableView
+    //-   .list-text 課表形式
+    //-   .list-btn
+    //-     .btn-group(data-toggle='buttons')
+    //-       label.btn(v-bind:class='{active: tableView == 9}', @click='tableView = 9')
+    //-         input#option1(type='radio', name='options', autocomplete='off', checked='')
+    //-         | 日間部
+    //-       label.btn(v-bind:class='{active: tableView == 13}', @click='tableView = 13')
+    //-         input#option3(type='radio', name='options', autocomplete='off')
+    //-         | 日夜間部
 
   button.login(@click='logout') 登出
