@@ -1,0 +1,89 @@
+#loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eee;
+  position: fixed;
+  z-index: 5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .loading {
+    position: relative;
+    height: 90px;
+    width: 90px;
+    margin: 80px auto;
+    border: none;
+  }
+
+  .square {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    background: #3498db;
+    opacity: 0.2;
+  }
+
+  .square-a {
+    -webkit-animation: fadeIn 0.8s infinite;
+    -moz-animation: fadeIn 0.8s infinite;
+    animation: fadeIn 0.8s infinite;
+  }
+
+  .state1a {
+    top: 0;
+    left: 0;
+  }
+
+  .state2a {
+    top: 0;
+    left: 50px;
+    -webkit-animation-delay: 200ms;
+    -moz-animation-delay: 200ms;
+    animation-delay: 200ms;
+  }
+
+  .state3a {
+    top: 50px;
+    left: 50px;
+    -webkit-animation-delay: 400ms;
+    -moz-animation-delay: 400ms;
+    animation-delay: 400ms;
+  }
+
+  .state4a {
+    top: 50px;
+    left: 0;
+    -webkit-animation-delay: 600ms;
+    -moz-animation-delay: 600ms;
+    animation-delay: 600ms;
+  }
+
+  /*Square a blink blink*/
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0.2;
+    }
+    10% {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes fadeIn {
+    0% {
+      opacity: 0.2;
+    }
+    10% {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0.2;
+    }
+    10% {
+      opacity: 1;
+    }
+  }
+}
+

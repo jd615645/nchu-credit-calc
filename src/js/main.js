@@ -25,9 +25,14 @@ var vm = new Vue({
     let careerType = ['U', 'G', 'N', 'O']
     let careerRequest = []
 
+    this.timeTable = _.map(Array(13), () => {
+      return _.map(Array(5), () => [{}, 0])
+    })
+
     $.each(careerType, (key, val) => {
       careerRequest.push($.getJSON('../data/career_' + val + '.json'))
     })
+
     $.when
       .apply($, careerRequest)
       .then((...careerData) => {
@@ -36,23 +41,16 @@ var vm = new Vue({
             _.setWith(this.courseCode, [course.code], course, Object)
           })
         })
+        if (!_.isUndefined(window.localStorage['creditSummary'])) {
+          this.activePage = 1
+          this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
+
+          this.calcCredit()
+          this.progressInit()
+        }else {
+          this.activePage = 0
+        }
       })
-
-    this.timeTable = _.map(Array(13), () => {
-      return _.map(Array(5), () => [{}, 0])
-    })
-
-    if (!_.isUndefined(window.localStorage['creditSummary'])) {
-      this.activePage = 1
-      this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
-
-      this.calcCredit()
-    // setTimeout(() => {
-    //   this.progressInit()
-    // }, 50)
-    }else {
-      this.activePage = 0
-    }
   },
   computed: {
     totCredit() {
@@ -138,9 +136,6 @@ var vm = new Vue({
           }
         })
       })
-      setTimeout(() => {
-        this.progressInit()
-      }, 50)
     },
     calcPercent(type) {
       let percent = 0
@@ -168,10 +163,12 @@ var vm = new Vue({
       return parseInt(percent)
     },
     progressInit() {
-      this.progressSetting('tot')
-      $.each(this.thresholdInfo, (key, val) => {
-        this.progressSetting(key)
-      })
+      setTimeout(() => {
+        this.progressSetting('tot')
+        $.each(this.thresholdInfo, (key, val) => {
+          this.progressSetting(key)
+        })
+      }, 50)
     },
     progressSetting(type) {
       if (type === 'tot') icon = 'f19d'
@@ -198,15 +195,13 @@ var vm = new Vue({
       if (this.activePage !== num) {
         this.activePage = num
         window.scrollTo(0, 0)
-        setTimeout(() => {
-          if (num === 1) {
-            this.progressInit()
-          }
-          else if (num === 3) {
-            console.log('parseCourse')
-            this.parseCourse()
-          }
-        }, 300)
+        if (num === 1) {
+          this.progressInit()
+        }
+        else if (num === 3) {
+          console.log('parseCourse')
+          this.parseCourse()
+        }
       }
     },
     editNeedCrredit(type, event) {
