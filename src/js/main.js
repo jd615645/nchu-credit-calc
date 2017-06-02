@@ -81,6 +81,20 @@ var vm = new Vue({
       tot -= this.thresholdInfo.sport.needCredit
       return tot
     },
+    serviceGap() {
+      if (this.otherThreshold.service) {
+        return 'PASS'
+      }else {
+        return 'Not PASS'
+      }
+    },
+    englishGap() {
+      if (this.otherThreshold.english) {
+        return 'PASS'
+      }else {
+        return 'Not PASS'
+      }
+    },
     navTitle() {
       if (this.activePage === 1) return '學分統計'
       else if (this.activePage === 2) return '學分列表'
@@ -279,7 +293,8 @@ var vm = new Vue({
     },
     login(e) {
       e.preventDefault()
-      let url = 'https://login.hsingpicking.com.tw/'
+      // let url = 'https://login.hsingpicking.com.tw/'
+      let url = 'http://127.0.0.1:3001/'
       let loginData = {
         'id': this.studentId,
         'pw': this.studentPw
@@ -292,7 +307,7 @@ var vm = new Vue({
         let input = JSON.parse(inputData)
         if (inputData !== 'error' && input['studentName'] !== '') {
           this.activePage = 1
-          
+
           console.log(input)
           this.studentName = input['studentName']
           this.studentDept = input['studentDept']

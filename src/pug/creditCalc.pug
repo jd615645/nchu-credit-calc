@@ -48,11 +48,9 @@
   #service.col-xs-12.calcBlock
     .col-xs-7 服務學習
     .col-xs-5
-      p(v-if='otherThreshold.service') PASS
-      p(v-else) Not PASS
+      p {{ serviceGap }}
   #english.col-xs-12.calcBlock
     .col-xs-7 英文能力檢定
     .col-xs-5
-      p(v-if='otherThreshold.engilsh') PASS
-      p(v-else) Not PASS
+      p {{ englishGap }}
 
