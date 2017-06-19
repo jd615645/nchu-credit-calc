@@ -308,7 +308,6 @@ var vm = new Vue({
         if (inputData !== 'error' && input['studentName'] !== '') {
           this.activePage = 1
 
-          console.log(input)
           this.studentName = input['studentName']
           this.studentDept = input['studentDept']
           this.getData(input['courseList'])
