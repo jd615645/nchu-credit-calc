@@ -196,6 +196,7 @@ var vm = new Vue({
       }, 50)
     },
     progressSetting(type) {
+      let icon = ''
       if (type === 'tot') icon = 'f19d'
       else if (type === 'major') icon = 'f024'
       else if (type === 'elective') icon = 'f11d'
@@ -293,8 +294,8 @@ var vm = new Vue({
     },
     login(e) {
       e.preventDefault()
-      let url = 'https://login.hsingpicking.com.tw/'
-      // let url = 'http://127.0.0.1:3001/'
+      // let url = 'https://login.hsingpicking.com.tw/'
+      let url = 'http://127.0.0.1:3001/'
       let loginData = {
         'id': this.studentId,
         'pw': this.studentPw

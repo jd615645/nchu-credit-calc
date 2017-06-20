@@ -39,6 +39,9 @@ gulp.task('css', () => {
 
 gulp.task('scripts', () => {
   gulp.src(paths.src.js)
+    .pipe($.babel({
+      presets: ['es2015']
+    }))
     .pipe(gulp.dest(paths.dest.js))
 })
 
