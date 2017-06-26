@@ -105,6 +105,11 @@ footer {
     }
   }
 }
+@media screen and (min-width: 969px) {
+  nav, footer {
+    display: none;
+  }
+}
 
 #creditCalc {
   &.container {
@@ -115,24 +120,17 @@ footer {
     td {
       padding: 0px 10px;
     }
-    .calcBlock:nth-child(1) {
+    .block-calc:nth-child(1) {
       border-right: 1px solid @borderColor;
     }
   }
-  .calcBlock {
+  .block-calc {
     position: relative;
     border-bottom: 1px solid @borderColor;
     
     &:nth-child(1) {
       border-right: 1px solid @borderColor;
     }
-    // &:nth-child(4) {
-    //   border-left: 1px solid @borderColor;
-    //   border-top: 1px solid @borderColor;
-    // }
-    // &:nth-child(5), &:nth-child(6) {
-    //   border-top: 1px solid @borderColor;
-    // }
     .category {
       position: absolute;
       top: 5px;

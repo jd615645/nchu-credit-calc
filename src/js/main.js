@@ -101,6 +101,26 @@ var vm = new Vue({
       else if (this.activePage === 3) return '課表'
       else if (this.activePage === 4) return '個人資料'
       else if (this.activePage === 5) return '項目列表'
+    },
+    totPersent() {
+      let persent = (this.totCredit / this.totNeedCredit).toFixed(2).toString()
+      return persent*100 + '%'
+    },
+    majorPersent() {
+      let persent = (this.thresholdInfo.major.credit / this.thresholdInfo.major.needCredit).toFixed(2).toString()
+      return persent*100 + '%'
+    },
+    electivePersent() {
+      let persent = (this.thresholdInfo.elective.credit / this.thresholdInfo.elective.needCredit).toFixed(2).toString()
+      return persent*100 + '%'
+    },
+    generalPersent() {
+      let persent = (this.thresholdInfo.general.credit / this.thresholdInfo.general.needCredit).toFixed(2).toString()
+      return persent*100 + '%'
+    },
+    sportPersent() {
+      let persent = (this.thresholdInfo.sport.credit / this.thresholdInfo.sport.needCredit).toFixed(2).toString()
+      return persent*100 + '%'
     }
   },
   methods: {
@@ -294,8 +314,8 @@ var vm = new Vue({
     },
     login(e) {
       e.preventDefault()
-      // let url = 'https://login.hsingpicking.com.tw/'
-      let url = 'http://127.0.0.1:3001/'
+      let url = 'https://login.hsingpicking.com.tw/'
+      // let url = 'http://127.0.0.1:3001/'
       let loginData = {
         'id': this.studentId,
         'pw': this.studentPw
