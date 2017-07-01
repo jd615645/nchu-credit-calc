@@ -1,15 +1,34 @@
-#creditCalc #webView {
-  .block-profile {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 15px;
-    height: 128px;
-    p {
+#webNav {
+  background-color: #34495e;
+  ul {
+    height: 100%;
+    list-style-type: none;
+    overflow: hidden;
+
+    padding: 0px 40px;
+    margin-bottom: 0px;
+    li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
       font-size: 1.2em;
-      margin-bottom: 5px;
+
+      padding: 5px 10px;
+      float: right;
+      color: #fff;
+      cursor: default;
+      .fa {
+        padding-right: 10px;
+      }
+      &:hover {
+        color: #3D84A8;
+      }
     }
   }
+}
+#creditCalc #webView {
+  margin-top: 10px;
   .block-calc {
     display: flex;
     background-color: #fff;
@@ -23,8 +42,19 @@
   .block-info {
     width: ~"calc(100% - 128px)";
     padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    span {
+      padding-right: 5px;
+    }
+    p {
+      font-size: 1.2em;
+    }
   }
   .block-title {
+    margin-top: 0px;
     font-size: 1.5em;
   }
   .credit-progress {
@@ -34,7 +64,12 @@
       width: 10%;
       height: 3px;
       background-color: #506777;
+      -webkit-transition: width 1s;
+      transition: width 1s;
     }
+  }
+  #totBlock, #majorBlock, #electiveBlock, #generalBlock, #sportBlock, #otherBlock {
+    cursor: pointer;
   }
   .credit-block {
     font-size: 1.3em;
@@ -42,6 +77,9 @@
   .block-img {
     height: 128px;
     width: 128px;
+    &[type='profile'] {
+      background-image: url('../img/student.png');
+    }
     &[type='tot'] {
       background-image: url('../img/tot.png');
     }
@@ -66,5 +104,25 @@
     &[type='english'] {
       background-image: url('../img/english.png');
     }
+  }
+}
+
+#totCourseList {
+  h2 {
+    margin-top: 0px;
+  }
+}
+#about {
+  p {
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
+}
+#download {
+  .modal-body {
+    text-align: center;
+  }
+  p {
+    font-size: 1.2em;
   }
 }

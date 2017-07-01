@@ -88,7 +88,6 @@ footer {
       float: left;
       height: 100%;
       width: 33%;
-      // width: 25%;
       &.active, &.hover, &.focus {
         p {
          color: #3498db;
@@ -105,16 +104,21 @@ footer {
     }
   }
 }
-@media screen and (min-width: 969px) {
-  nav, footer {
+@media screen and (min-width: 749px) {
+  #mobileNav, footer {
+    display: none;
+  }
+}
+@media screen and (max-width: 750px) {
+  #creditCalc.container {
+    padding: 0px;
+  }
+  #webNav {
     display: none;
   }
 }
 
 #creditCalc {
-  &.container {
-    padding: 0px;
-  }
   table {
     width: 100%;
     td {
@@ -191,7 +195,7 @@ footer {
   }
 }
 
-#list, #subjectList {
+#list, #subjectList, #totCourseList, #courseList {
   ul {
     height: 100%;
     
@@ -215,7 +219,7 @@ footer {
         height: 50px;
         width: 80%;
       }
-      .list-credit, .list-icon {
+      .list-credit, .list-icon, .list-setting {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -224,8 +228,10 @@ footer {
         width: 10%;
         border-left: 1px solid @borderColor;
       }
-      .list-icon {
-        border-right: 1px solid @borderColor;
+      .list-icon, .list-setting {
+        &:hover {
+          color: #3498db;
+        }
       }
       .title {
         font-size: 1.2em;
@@ -269,6 +275,19 @@ footer {
 .courseInfo {
   li {
     text-align: left;
+  }
+}
+.web-info {
+  p {
+    text-align: center;
+  }
+}
+.yaer-title {
+  .year {
+    text-align: left;
+  }
+  .creditRatio {
+    text-align: right;
   }
 }
 

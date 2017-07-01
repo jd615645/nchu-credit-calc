@@ -9,3 +9,92 @@
         
       .modal-footer
         button.btn.btn-primary(type='button') Save
+
+#totCourseList.modal.fade(tabindex='-1')
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4.modal-title 學分列表
+      .modal-body
+        div(v-for='(iv, years) in creditSummary')
+          .row.yaer-title
+            .col-xs-7
+              h2.year(v-bind:id='years') {{ years }} 學期
+            .col-xs-5
+              h2.creditRatio
+                | {{ iv['getCredits'] }}
+                | /
+                | {{ iv['credits'] }}
+          ul
+            li(v-for='(courseData, jk) in iv["total"]', v-bind:class='{ notpass: courseData["成績"] < 60 }')
+              .list-text
+                p.title {{ courseData['課程名稱'] }}
+                p.subject {{ courseData['所屬項目'] }}
+              .list-credit
+                p.credit {{ courseData['畢業學分'] }}
+              .list-icon(@click='getCourseInfo(courseData)')
+                p.fa.fa-search
+              .list-setting(@click='showCourseSetting(courseData["課程名稱"], courseData["選課號碼"])')
+                p.fa.fa-fw.fa-cog
+
+#courseList.modal.fade(tabindex='-1')
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4.modal-title {{ subjectTitle }}項目列表
+      .modal-body
+        h3.subjectList
+          | {{ subjectList.credit }}
+          | /
+          | {{ subjectList.needCredit }}
+        ul
+          li(v-for='(courseData, key) in subjectList.course', v-bind:class='{ notpass: courseData["成績"] < 60 }')
+            .list-text
+              p.title {{ courseData['課程名稱'] }}
+              p.subject {{ courseData['所屬項目'] }}
+            .list-credit
+              p.credit {{ courseData['畢業學分'] }}
+            .list-icon(@click='getCourseInfo(courseData)')
+              p.fa.fa-fw.fa-search
+            .list-setting(@click='showCourseSetting(courseData["課程名稱"], courseData["選課號碼"])')
+              p.fa.fa-fw.fa-cog
+
+#moveCourse.modal.fade(tabindex='-1')
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4.modal-title 編輯課程種類
+      .modal-body
+
+#download.modal.fade(tabindex='-1')
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4.modal-title 下載Android版
+      .modal-body
+        a(href='./data/nchu-calc.apk', download='nchu-calc.apk')
+          img(src='./img/qr.png')
+        p 點擊QR code即可下載apk
+
+#about.modal.fade(tabindex='-1')
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4.modal-title 說明
+      .modal-body
+        p
+          | 本系統的必修及選修畢業學分條件是根據資工系大三做預設，實際畢業學分還是要以各系上網站公告為準，可使用該欄位右上角的
+          i.fa.fa-fw.fa-pencil
+          | 符號進行編輯
+        p 
+          b 本系統不會去儲存使用者的任何帳號密碼及使用資訊

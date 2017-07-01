@@ -25,7 +25,6 @@ var vm = new Vue({
     // 學士班->U, 碩班->G, 夜校->N, 其他->O
     // let careerType = ['U', 'G', 'N', 'O']
     // let careerRequest = []
-
     setTimeout(() => {
       if (!_.isUndefined(window.localStorage['creditSummary'])) {
         this.activePage = 1
@@ -66,7 +65,7 @@ var vm = new Vue({
   computed: {
     totCredit() {
       let tot = 0
-      $.each(this.thresholdInfo, (key, val) => {
+      _.each(this.thresholdInfo, (val) => {
         tot += val.credit
       })
       tot -= this.thresholdInfo.sport.credit
@@ -75,7 +74,7 @@ var vm = new Vue({
     },
     totNeedCredit() {
       let tot = 0
-      $.each(this.thresholdInfo, (key, val) => {
+      _.each(this.thresholdInfo, (val) => {
         tot += val.needCredit
       })
       tot -= this.thresholdInfo.sport.needCredit
@@ -104,28 +103,33 @@ var vm = new Vue({
     },
     totPersent() {
       let persent = (this.totCredit / this.totNeedCredit).toFixed(2).toString()
-      return persent*100 + '%'
+      if (persent >= 1) persent = 1
+      return persent * 100 + '%'
     },
     majorPersent() {
       let persent = (this.thresholdInfo.major.credit / this.thresholdInfo.major.needCredit).toFixed(2).toString()
-      return persent*100 + '%'
+      if (persent >= 1) persent = 1
+      return persent * 100 + '%'
     },
     electivePersent() {
       let persent = (this.thresholdInfo.elective.credit / this.thresholdInfo.elective.needCredit).toFixed(2).toString()
-      return persent*100 + '%'
+      if (persent >= 1) persent = 1
+      return persent * 100 + '%'
     },
     generalPersent() {
       let persent = (this.thresholdInfo.general.credit / this.thresholdInfo.general.needCredit).toFixed(2).toString()
-      return persent*100 + '%'
+      if (persent >= 1) persent = 1
+      return persent * 100 + '%'
     },
     sportPersent() {
       let persent = (this.thresholdInfo.sport.credit / this.thresholdInfo.sport.needCredit).toFixed(2).toString()
-      return persent*100 + '%'
+      if (persent >= 1) persent = 1
+      return persent * 100 + '%'
     }
   },
   methods: {
     getData(data) {
-      $.each(data, (key, val) => {
+      _.each(data, (val) => {
         let year = _.toString(val['學年']) + _.toString(val['學期'])
         let subject = val['所屬項目']
         if (!_.has(this.creditSummary, [year, 'total'])) {
@@ -137,6 +141,21 @@ var vm = new Vue({
         this.creditSummary[year]['total'].push(val)
         this.creditSummary[year][subject].push(val)
       })
+      _.each(this.creditSummary, (iv, year) => {
+        let credits = 0
+        let getCredits = 0
+        _.each(this.creditSummary[year]['total'], (jv) => {
+          let credit = jv['畢業學分']
+          let score = jv['成績']
+          credits += credit
+          if (score >= 60) {
+            getCredits += credit
+          }
+        })
+        this.creditSummary[year]['credits'] = credits
+        this.creditSummary[year]['getCredits'] = getCredits
+      })
+
       this.calcCredit()
       this.saveToStorage()
     },
@@ -188,10 +207,10 @@ var vm = new Vue({
       let needCredit = 0
 
       if (type === 'tot') {
-        $.each(this.thresholdInfo, (key, val) => {
+        _.each(this.thresholdInfo, (val) => {
           credit += val.credit
         })
-        $.each(this.thresholdInfo, (key, val) => {
+        _.each(this.thresholdInfo, (val) => {
           needCredit += val.needCredit
         })
       } else {
@@ -249,50 +268,120 @@ var vm = new Vue({
       event.stopPropagation()
       swal({
         title: '修改畢業' + type + '學分',
-        type: 'input',
+        input: 'text',
         showCancelButton: true,
         closeOnConfirm: false,
-        animation: 'slide-from-top',
+        animation: true,
         inputPlaceholder: '畢業' + type + '學分'
-      },
-        (inputVal) => {
-          let caredit = parseInt(inputVal)
+      }).then((inputVal) => {
+        let caredit = parseInt(inputVal)
 
-          if (inputVal === false) return false
+        if (inputVal === false) return false
 
-          if (!_.isNaN(caredit) && caredit > 0) {
-            if (type === '必修') {
-              this.thresholdInfo.major.needCredit = caredit
-            }
-            else if (type === '選修') {
-              this.thresholdInfo.elective.needCredit = caredit
-            }
-          } else {
-            swal.showInputError('請填寫正確數值!')
-            return false
+        if (!_.isNaN(caredit) && caredit > 0) {
+          if (type === '必修') {
+            this.thresholdInfo.major.needCredit = caredit
           }
+          else if (type === '選修') {
+            this.thresholdInfo.elective.needCredit = caredit
+          }
+        } else {
+          swal.showInputError('請填寫正確數值!')
+          return false
+        }
 
-          swal('修改成功', '已經將畢業' + type + '學分修改為' + caredit + '學分', 'success')
-        })
+        swal('修改成功', '已經將畢業' + type + '學分修改為' + caredit + '學分', 'success')
+      })
     },
     getCourseInfo(info) {
       let html = '<ul class="courseInfo"><li>學年：' + info['學年'] + '</li><li>學期：' + info['學期'] + '</li><li>選課號碼：' + info['選課號碼'] + '</li><li>課程名稱：' + info['課程名稱'] + '</li><li>開課系所：' + info['開課系所'] + '</li><li>學分：' + info['畢業學分'] + '</li><li>成績：' + info['成績'] + '</li><li>所屬項目：' + info['所屬項目'] + '</li></ul>'
 
       swal({
         title: '詳細資料',
-        text: html,
-        html: true
+        html: html
+      })
+    },
+    showCourseList() {
+      $('#totCourseList').modal()
+    },
+    showCourseType(type) {
+      this.switchSubject(type)
+      $('#courseList').modal()
+    },
+    showLogoutMsg() {
+      swal({
+        title: 'Are you sure?',
+        text: '你確定要登出系統嗎',
+        type: 'question',
+        showCancelButton: true
+      }).then(() => {
+        this.logout()
+      })
+    },
+    showCourseSetting(title, code) {
+      let subjectType = {
+        '必修': 'major',
+        '選修': 'elective',
+        '通識': 'general',
+        '體育': 'sport',
+        '其他': 'other'
+      }
+      // inputOptions can be an object or Promise
+      var inputOptions = new Promise((resolve) => {
+        resolve({
+          'major': '必修',
+          'elective': '選修',
+          'general': '通識',
+          'sport': '體育',
+          'other': '其他'
+        })
+      })
+      swal({
+        title: '將 ' + title + ' 移動至',
+        input: 'radio',
+        inputOptions: inputOptions,
+        inputValidator: function (result) {
+          return new Promise((resolve, reject) => {
+            if (result) {
+              resolve()
+            } else {
+              reject('You need to select something!')
+            }
+          })
+        }
+      }).then((result) => {
+        let subject = subjectType[this.subjectTitle]
+        let findKey = _.findKey(this.thresholdInfo[subject]['course'], {'選課號碼': _.toString(code)})
+
+        this.thresholdInfo[result]['course'].push(this.thresholdInfo[subject]['course'][findKey])
+        let score = this.thresholdInfo[subject]['course'][findKey]['成績']
+
+        if (score >= 60) {
+          console.log('more then 60')
+          this.thresholdInfo[subject]['credit'] -= this.thresholdInfo[subject]['course'][findKey]['畢業學分']
+          this.thresholdInfo[result]['credit'] += this.thresholdInfo[subject]['course'][findKey]['畢業學分']
+        }
+        this.thresholdInfo[subject]['course'].splice(findKey, 1)
+        swal({
+          type: 'success',
+          html: '你已經將 ' + title + ' 移動至 ' + result + ' 課程'
+        })
       })
     },
     showList(type) {
       this.activePage = 5
+      this.switchSubject(type)
+    },
+    switchSubject(type) {
       this.subjectList = this.thresholdInfo[type]
 
       if (type === 'major') this.subjectTitle = '必修'
       else if (type === 'elective') this.subjectTitle = '選修'
       else if (type === 'general') this.subjectTitle = '通識'
       else if (type === 'sport') this.subjectTitle = '體育'
+      else if (type === 'other') this.subjectTitle = '其他'
     },
+    moveCourse() {},
     parseCourse() {
       let schedule = _.map(Array(13), () => {
         return _.map(Array(5), () => [{}, 0])
@@ -340,6 +429,12 @@ var vm = new Vue({
         $('#login button').show()
         $('.loading').css('opacity', 0)
       })
+    },
+    showAbout() {
+      $('#about').modal()
+    },
+    showDownload() {
+      $('#download').modal()
     },
     logout() {
       this.activePage = 0

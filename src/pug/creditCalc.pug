@@ -1,18 +1,20 @@
 #creditCalc.mainPage.container(v-if='activePage == 1')
-  #webView.hidden-xs.hidden-sm.col-md-12
-    .col-md-6
-      .block-profile
-        p 
-          | 姓名
-          span  {{ studentName }}
-        p 
-          | 學號
-          span  {{ studentId }}
-        p 
-          | 科系
-          span  {{ studentDept }}
-    .col-md-6
-      #totBlock.block-calc
+  #webView.hidden-xs.hidden-12
+    .col-sm-6
+      .block-calc
+        .block-img(type='profile')
+        .block-info
+          p 
+            | 姓名
+            span {{ studentName }}
+          p 
+            | 學號
+            span {{ studentId }}
+          p 
+            | 科系
+            span {{ studentDept }}
+    .col-sm-6
+      #totBlock.block-calc(@click='showCourseList()')
         .block-img(type='tot')
         .block-info
           h2.block-title 總學分
@@ -22,8 +24,8 @@
             | {{ totNeedCredit }}
           .credit-progress
             .progressbar(v-bind:style="{ width: totPersent }")
-    .col-md-6
-      #majorBlock.block-calc
+    .col-sm-6
+      #majorBlock.block-calc(@click='showCourseType("major")')
         .block-img(type='major')
         .block-info
           h2.block-title 必修
@@ -33,8 +35,9 @@
             | {{ thresholdInfo.major.needCredit }}
           .credit-progress
             .progressbar(v-bind:style='{ width: majorPersent }')
-    .col-md-6
-      #electiveBlock.block-calc
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCrredit("必修", $event)')
+    .col-sm-6
+      #electiveBlock.block-calc(@click='showCourseType("elective")')
         .block-img(type='elective')
         .block-info
           h2.block-title 選修
@@ -44,8 +47,9 @@
             | {{ thresholdInfo.elective.needCredit }}
           .credit-progress
             .progressbar(v-bind:style='{ width: electivePersent }')
-    .col-md-6
-      #generalBlock.block-calc
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCrredit("選修", $event)')
+    .col-sm-6
+      #generalBlock.block-calc(@click='showCourseType("general")')
         .block-img(type='general')
         .block-info
           h2.block-title 通識
@@ -55,8 +59,8 @@
             | {{ thresholdInfo.general.needCredit }}
           .credit-progress
             .progressbar(v-bind:style='{ width: generalPersent }')
-    .col-md-6
-      #sportBlock.block-calc
+    .col-sm-6
+      #sportBlock.block-calc(@click='showCourseType("sport")')
         .block-img(type='sport')
         .block-info
           h2.block-title 體育
@@ -66,21 +70,21 @@
             | {{ thresholdInfo.sport.needCredit }}
           .credit-progress
             .progressbar(v-bind:style='{ width: sportPersent }')
-    .col-md-6
-      #otherBlock.block-calc
+    .col-sm-6
+      #otherBlock.block-calc(@click='showCourseType("other")')
         .block-img(type='other')
         .block-info
           h2.block-title 其他
           .credit-block
             | {{ thresholdInfo.other.credit }} 學分
-    .col-md-6
+    .col-sm-6
       #serviceBlock.block-calc
         .block-img(type='service')
         .block-info
           h2.block-title 服務學習
           .credit-block
             | {{ serviceGap }}
-    .col-md-6
+    .col-sm-6
       #englishBlock.block-calc
         .block-img(type='english')
         .block-info
@@ -88,57 +92,57 @@
           .credit-block
             | {{ englishGap }}
 
-  #tot.col-sm-12.hidden-md.hidden-lg.block-calc(v-on:click='switchPage(2)')
+  #tot.col-xs-12.hidden-sm.hidden-md.hidden-lg.block-calc(@click='switchPage(2)')
     .circle-progress
     .calc
       | {{ totCredit }}
       | /
       | {{ totNeedCredit }}
     .category 總學分
-  table.hidden-md.hidden-lg
+  table.hidden-sm.hidden-md.hidden-lg
     tr
-      td#major.block-calc(v-on:click='showList("major")')
+      td#major.block-calc(@click='showList("major")')
         .circle-progress
         .calc
           | {{ thresholdInfo.major.credit }}
           | /
           | {{ thresholdInfo.major.needCredit }}
-        i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("必修", $event)')
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCrredit("必修", $event)')
         .category 必修
-      td#elective.block-calc(v-on:click='showList("elective")')
+      td#elective.block-calc(@click='showList("elective")')
         .circle-progress
         .calc
           | {{ thresholdInfo.elective.credit }}
           | /
           | {{ thresholdInfo.elective.needCredit }}
-        i.editNeed.fa.fa-fw.fa-pencil(v-on:click='editNeedCrredit("選修", $event)')
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCrredit("選修", $event)')
         .category 選修
     tr
-      td#general.block-calc(v-on:click='showList("general")')
+      td#general.block-calc(@click='showList("general")')
         .circle-progress
         .calc
           | {{ thresholdInfo.general.credit }}
           | /
           | {{ thresholdInfo.general.needCredit }}
         .category 通識
-      td#sport.block-calc(v-on:click='showList("sport")')
+      td#sport.block-calc(@click='showList("sport")')
         .circle-progress
         .calc
           | {{ thresholdInfo.sport.credit }}
           | /
           | {{ thresholdInfo.sport.needCredit }}
         .category 體育
-  #other.col-sm-12.hidden-md.hidden-lg.block-calc
-    .col-sm-7 其他課程
-    .col-sm-5
+  #other.col-xs-12.hidden-sm.hidden-md.hidden-lg.block-calc(@click='showList("other")')
+    .col-xs-7 其他課程
+    .col-xs-5
       p
         | {{ thresholdInfo.other.credit }}
         | 學分
-  #service.col-sm-12.hidden-md.hidden-lg.block-calc
-    .col-sm-7 服務學習
-    .col-sm-5
+  #service.col-xs-12.hidden-sm.hidden-md.hidden-lg.block-calc
+    .col-xs-7 服務學習
+    .col-xs-5
       p {{ serviceGap }}
-  #english.col-sm-12.hidden-md.hidden-lg.block-calc
-    .col-sm-7 英文能力檢定
-    .col-sm-5
+  #english.col-xs-12.hidden-sm.hidden-md.hidden-lg.block-calc
+    .col-xs-7 英文能力檢定
+    .col-xs-5
       p {{ englishGap }}
