@@ -36,8 +36,6 @@
                 p.credit {{ courseData['畢業學分'] }}
               .list-icon(@click='getCourseInfo(courseData)')
                 p.fa.fa-search
-              .list-setting(@click='showCourseSetting(courseData["課程名稱"], courseData["選課號碼"])')
-                p.fa.fa-fw.fa-cog
 
 #courseList.modal.fade(tabindex='-1')
   .modal-dialog.modal-lg
