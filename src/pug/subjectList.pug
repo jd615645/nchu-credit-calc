@@ -6,11 +6,13 @@
       | /
       | {{ subjectList.needCredit }}
   ul
-    li(v-for='(courseData, key) in subjectList.course', v-bind:class='{ notpass: courseData["成績"] < 60 }', v-on:click='getCourseInfo(courseData)', )
+    li(v-for='(courseData, key) in subjectList.course', v-bind:class='{ notpass: courseData["成績"] < 60 }')
       .list-text
         p.title {{ courseData['課程名稱'] }}
         p.subject {{ courseData['所屬項目'] }}
       .list-credit
         p.credit {{ courseData['畢業學分'] }}
-      .list-icon
+      .list-icon(@click='getCourseInfo(courseData)')
         p.fa.fa-search
+      .list-setting(@click='showCourseSetting(courseData["課程名稱"], courseData["選課號碼"])')
+        p.fa.fa-fw.fa-cog
