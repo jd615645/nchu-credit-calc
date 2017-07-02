@@ -35,7 +35,7 @@
             | {{ thresholdInfo.major.needCredit }}
           .credit-progress
             .progressbar(v-bind:style='{ width: majorPersent }')
-        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCrredit("必修", $event)')
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCredit("必修", $event)')
     .col-sm-6
       #electiveBlock.block-calc(@click='showCourseType("elective")')
         .block-img(type='elective')
@@ -47,7 +47,7 @@
             | {{ thresholdInfo.elective.needCredit }}
           .credit-progress
             .progressbar(v-bind:style='{ width: electivePersent }')
-        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCrredit("選修", $event)')
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCredit("選修", $event)')
     .col-sm-6
       #generalBlock.block-calc(@click='showCourseType("general")')
         .block-img(type='general')
@@ -107,7 +107,7 @@
           | {{ thresholdInfo.major.credit }}
           | /
           | {{ thresholdInfo.major.needCredit }}
-        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCrredit("必修", $event)')
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCredit("必修", $event)')
         .category 必修
       td#elective.block-calc(@click='showList("elective")')
         .circle-progress
@@ -115,7 +115,7 @@
           | {{ thresholdInfo.elective.credit }}
           | /
           | {{ thresholdInfo.elective.needCredit }}
-        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCrredit("選修", $event)')
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCredit("選修", $event)')
         .category 選修
     tr
       td#general.block-calc(@click='showList("general")')

@@ -265,7 +265,7 @@ var vm = new Vue({
         }
       }
     },
-    editNeedCrredit(type, event) {
+    editNeedCredit(type, event) {
       event.stopPropagation()
       swal({
         title: '修改畢業' + type + '學分',
