@@ -1,0 +1,14 @@
+<div class="mainPage container" id="creditCalcWeb" v-if="activePage == 1"><div class="col-md-12"><div class="col-md-6"><div class="profile"><p> 姓名<span> {{ studentName }}</span></p><p> 學號<span> {{ studentId }}</span></p><p> 科系<span> {{ studentDept }}</span></p></div></div><div class="col-md-6"><div class="totBlock"><div class="calc">{{ totCredit }}
+/
+{{ totNeedCredit }}</div></div></div></div><div class="col-sm-12 hidden-md hidden-lg calcBlock" id="tot" v-on:click="switchPage(2)"><div class="circle-progress"></div><div class="calc">{{ totCredit }}
+/
+{{ totNeedCredit }}</div><div class="category">總學分</div></div><table class="hidden-md hidden-lg"><tr><td class="calcBlock" id="major" v-on:click="showList(&quot;major&quot;)"><div class="circle-progress"></div><div class="calc">{{ thresholdInfo.major.credit }}
+/
+{{ thresholdInfo.major.needCredit }}</div><i class="editNeed fa fa-fw fa-pencil" v-on:click="editNeedCrredit(&quot;必修&quot;, $event)"></i><div class="category">必修</div></td><td class="calcBlock" id="elective" v-on:click="showList(&quot;elective&quot;)"><div class="circle-progress"></div><div class="calc">{{ thresholdInfo.elective.credit }}
+/
+{{ thresholdInfo.elective.needCredit }}</div><i class="editNeed fa fa-fw fa-pencil" v-on:click="editNeedCrredit(&quot;選修&quot;, $event)"></i><div class="category">選修</div></td></tr><tr><td class="calcBlock" id="general" v-on:click="showList(&quot;general&quot;)"><div class="circle-progress"></div><div class="calc">{{ thresholdInfo.general.credit }}
+/
+{{ thresholdInfo.general.needCredit }}</div><div class="category">通識</div></td><td class="calcBlock" id="sport" v-on:click="showList(&quot;sport&quot;)"><div class="circle-progress"></div><div class="calc">{{ thresholdInfo.sport.credit }}
+/
+{{ thresholdInfo.sport.needCredit }}</div><div class="category">體育</div></td></tr></table><div class="col-sm-12 hidden-md hidden-lg calcBlock" id="other"><div class="col-sm-7">其他課程</div><div class="col-sm-5"><p>{{ thresholdInfo.other.credit }}
+學分</p></div></div><div class="col-sm-12 calcBlock" id="service"><div class="col-sm-7">服務學習</div><div class="col-sm-5"><p>{{ serviceGap }}</p></div></div><div class="col-sm-12 calcBlock" id="english"><div class="col-sm-7">英文能力檢定</div><div class="col-sm-5"><p>{{ englishGap }}</p></div></div></div>

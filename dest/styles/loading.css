@@ -1,0 +1,80 @@
+#loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eee;
+  position: fixed;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /*Square a blink blink*/
+}
+#loading .loading {
+  position: relative;
+  height: 90px;
+  width: 90px;
+  margin: 80px auto;
+  border: none;
+}
+#loading .square {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background: #3498db;
+  opacity: 0.2;
+}
+#loading .square-a {
+  -webkit-animation: fadeIn 0.8s infinite;
+  -moz-animation: fadeIn 0.8s infinite;
+  animation: fadeIn 0.8s infinite;
+}
+#loading .state1a {
+  top: 0;
+  left: 0;
+}
+#loading .state2a {
+  top: 0;
+  left: 50px;
+  -webkit-animation-delay: 200ms;
+  -moz-animation-delay: 200ms;
+  animation-delay: 200ms;
+}
+#loading .state3a {
+  top: 50px;
+  left: 50px;
+  -webkit-animation-delay: 400ms;
+  -moz-animation-delay: 400ms;
+  animation-delay: 400ms;
+}
+#loading .state4a {
+  top: 50px;
+  left: 0;
+  -webkit-animation-delay: 600ms;
+  -moz-animation-delay: 600ms;
+  animation-delay: 600ms;
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0.2;
+  }
+  10% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0.2;
+  }
+  10% {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0.2;
+  }
+  10% {
+    opacity: 1;
+  }
+}
