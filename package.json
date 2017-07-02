@@ -4,7 +4,6 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
