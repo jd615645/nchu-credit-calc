@@ -275,23 +275,26 @@ var vm = new Vue({
         animation: true,
         inputPlaceholder: '畢業' + type + '學分'
       }).then((inputVal) => {
-        let caredit = parseInt(inputVal)
+        let caredit = _.parseInt(inputVal)
+        if (!_.isNaN(caredit)) {
+          if (inputVal === false) return false
 
-        if (inputVal === false) return false
+          if (!_.isNaN(caredit) && caredit > 0) {
+            if (type === '必修') {
+              this.thresholdInfo.major.needCredit = caredit
+            }
+            else if (type === '選修') {
+              this.thresholdInfo.elective.needCredit = caredit
+            }
+          } else {
+            swal.showInputError('請填寫正確數值!')
+            return false
+          }
 
-        if (!_.isNaN(caredit) && caredit > 0) {
-          if (type === '必修') {
-            this.thresholdInfo.major.needCredit = caredit
-          }
-          else if (type === '選修') {
-            this.thresholdInfo.elective.needCredit = caredit
-          }
-        } else {
-          swal.showInputError('請填寫正確數值!')
-          return false
+          swal('修改成功', '已經將畢業' + type + '學分修改為' + caredit + '學分', 'success')
+        }else {
+          swal('錯誤', '請填入正確數字', 'error')
         }
-
-        swal('修改成功', '已經將畢業' + type + '學分修改為' + caredit + '學分', 'success')
       })
     },
     getCourseInfo(info) {
