@@ -326,6 +326,13 @@ var vm = new Vue({
         '體育': 'sport',
         '其他': 'other'
       }
+      let subjectKey = {
+        'major': '必修',
+        'elective': '選修',
+        'general': '通識',
+        'sport': '體育',
+        'other': '其他'
+      }
       // inputOptions can be an object or Promise
       var inputOptions = new Promise((resolve) => {
         resolve({
@@ -357,14 +364,13 @@ var vm = new Vue({
         let score = this.thresholdInfo[subject]['course'][findKey]['成績']
 
         if (score >= 60) {
-          console.log('more then 60')
           this.thresholdInfo[subject]['credit'] -= this.thresholdInfo[subject]['course'][findKey]['畢業學分']
           this.thresholdInfo[result]['credit'] += this.thresholdInfo[subject]['course'][findKey]['畢業學分']
         }
         this.thresholdInfo[subject]['course'].splice(findKey, 1)
         swal({
           type: 'success',
-          html: '你已經將 ' + title + ' 移動至 ' + result + ' 課程'
+          html: '你已經將 ' + title + ' 移動至 ' + subjectKey[result] + ' 課程'
         })
       })
     },
