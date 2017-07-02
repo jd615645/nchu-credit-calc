@@ -29,7 +29,8 @@ var vm = new Vue({
       if (!_.isUndefined(window.localStorage['creditSummary'])) {
         this.activePage = 1
         this.loadStorage()
-        this.calcCredit()
+        // this.calcCredit()
+        this.progressInit()
       }else {
         this.activePage = 0
       }
@@ -333,15 +334,12 @@ var vm = new Vue({
         'sport': '體育',
         'other': '其他'
       }
+      let subject = subjectType[this.subjectTitle]
+      delete subjectKey[subject]
+
       // inputOptions can be an object or Promise
       var inputOptions = new Promise((resolve) => {
-        resolve({
-          'major': '必修',
-          'elective': '選修',
-          'general': '通識',
-          'sport': '體育',
-          'other': '其他'
-        })
+        resolve(subjectKey)
       })
       swal({
         title: '將 ' + title + ' 移動至',
@@ -357,7 +355,6 @@ var vm = new Vue({
           })
         }
       }).then((result) => {
-        let subject = subjectType[this.subjectTitle]
         let findKey = _.findKey(this.thresholdInfo[subject]['course'], {'選課號碼': _.toString(code)})
 
         this.thresholdInfo[result]['course'].push(this.thresholdInfo[subject]['course'][findKey])
@@ -387,7 +384,16 @@ var vm = new Vue({
       else if (type === 'sport') this.subjectTitle = '體育'
       else if (type === 'other') this.subjectTitle = '其他'
     },
-    moveCourse() {},
+    saveMoveSol() {
+      swal({
+        title: 'Are you sure?',
+        text: '你確定要儲存搬移後的內容嗎',
+        type: 'question',
+        showCancelButton: true
+      }).then(() => {
+        this.saveToStorage()
+      })
+    },
     parseCourse() {
       let schedule = _.map(Array(13), () => {
         return _.map(Array(5), () => [{}, 0])
@@ -459,18 +465,21 @@ var vm = new Vue({
       window.localStorage['studentName'] = JSON.stringify(this.studentName)
       window.localStorage['studentDept'] = JSON.stringify(this.studentDept)
       window.localStorage['creditSummary'] = JSON.stringify(this.creditSummary)
+      window.localStorage['thresholdInfo'] = JSON.stringify(this.thresholdInfo)
     },
     loadStorage() {
       this.studentId = JSON.parse(window.localStorage['studentId'])
       this.studentName = JSON.parse(window.localStorage['studentName'])
       this.studentDept = JSON.parse(window.localStorage['studentDept'])
       this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
+      this.thresholdInfo = JSON.parse(window.localStorage['thresholdInfo'])
     },
     clearStorage() {
       localStorage.removeItem('studentId')
       localStorage.removeItem('studentName')
       localStorage.removeItem('studentDept')
       localStorage.removeItem('creditSummary')
+      localStorage.removeItem('thresholdInfo')
     }
   }
 })
