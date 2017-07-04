@@ -263,7 +263,7 @@ var vm = new Vue({
         }
       }
     },
-    editNeedCrredit: function editNeedCrredit(type, event) {
+    editNeedCredit: function editNeedCredit(type, event) {
       var _this5 = this;
 
       event.stopPropagation();

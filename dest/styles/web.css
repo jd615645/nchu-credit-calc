@@ -46,7 +46,7 @@
   justify-content: center;
 }
 #creditCalc #webView .block-info span {
-  padding-right: 5px;
+  margin-left: 15px;
 }
 #creditCalc #webView .block-info p {
   font-size: 1.2em;

@@ -6,7 +6,7 @@
   "scripts": {
   },
   "author": "",
-  "license": "ISC",
+  "license": "CC BY-NC-SA 4.0",
   "devDependencies": {
     "browserify": "^13.1.0",
     "gulp": "^3.9.1",

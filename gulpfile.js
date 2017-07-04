@@ -9,7 +9,8 @@ var paths = {
     libs: './src/js/libs/*.js',
     data: './src/data/**',
     pug: './src/pug/*.pug',
-    images: './src/img/*'
+    images: './src/img/**',
+    config: './src/*.xml'
   },
   dest: {
     html: './dest',
@@ -17,7 +18,9 @@ var paths = {
     js: './dest/js',
     libs: './dest/js/libs',
     data: './dest/data',
-    images: './dest/img'
+    images: './dest/img',
+    config: './dest'
+
   }
 }
 
@@ -61,6 +64,11 @@ gulp.task('images', () => {
     .pipe(gulp.dest(paths.dest.images))
 })
 
+gulp.task('config', () => {
+  gulp.src(paths.src.config)
+    .pipe(gulp.dest(paths.dest.config))
+})
+
 gulp.task('webserver', () => {
   gulp
     .src(paths.dest.html)
@@ -78,4 +86,4 @@ gulp.task('watch', () => {
 })
 
 gulp.task('default', ['webserver', 'watch'])
-gulp.task('build', ['pug', 'less', 'css', 'scripts', 'data', 'libs'])
+gulp.task('build', ['pug', 'less', 'css', 'scripts', 'data', 'libs', 'config'])
