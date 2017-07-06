@@ -320,7 +320,11 @@ footer ul li p:nth-child(1) {
   box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.2);
 }
 #profile button.login {
-  background: #F49393;
+  background-color: #F49393;
+}
+#profile button.save {
+  margin-bottom: 5px;
+  background-color: #6892D5;
 }
 #profile ul {
   height: 100%;
