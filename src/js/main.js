@@ -469,6 +469,7 @@ var vm = new Vue({
       window.localStorage['studentDept'] = JSON.stringify(this.studentDept)
       window.localStorage['creditSummary'] = JSON.stringify(this.creditSummary)
       window.localStorage['thresholdInfo'] = JSON.stringify(this.thresholdInfo)
+      window.localStorage['otherThreshold'] = JSON.stringify(this.otherThreshold)
     },
     loadStorage() {
       this.studentId = JSON.parse(window.localStorage['studentId'])
@@ -476,6 +477,7 @@ var vm = new Vue({
       this.studentDept = JSON.parse(window.localStorage['studentDept'])
       this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
       this.thresholdInfo = JSON.parse(window.localStorage['thresholdInfo'])
+      this.otherThreshold = JSON.parse(window.localStorage['otherThreshold'])
     },
     clearStorage() {
       localStorage.removeItem('studentId')
@@ -483,6 +485,7 @@ var vm = new Vue({
       localStorage.removeItem('studentDept')
       localStorage.removeItem('creditSummary')
       localStorage.removeItem('thresholdInfo')
+      localStorage.removeItem('otherThreshold')
     }
   }
 })
