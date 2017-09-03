@@ -419,6 +419,7 @@ var vm = new Vue({
     login(e) {
       e.preventDefault()
       let url = 'https://login.hsingpicking.com.tw/'
+      // test
       // let url = 'http://127.0.0.1:3001/'
       let loginData = {
         'id': this.studentId,
@@ -444,6 +445,11 @@ var vm = new Vue({
         $('#login button').show()
         $('.loading').css('opacity', 0)
       })
+        .fail(() => {
+          sweetAlert('Oops...', '可能有什麼地方出錯了，請再重新確認網路狀況再登入，如無法排除請洽粉絲專業回報問提', 'error')
+          $('#login button').show()
+          $('.loading').css('opacity', 0)
+        })
     },
     showAbout() {
       $('#about').modal()
