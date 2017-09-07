@@ -15,16 +15,10 @@ var vm = new Vue({
       studentId: '',
       studentPw: '',
       studentName: '',
-      studentDept: '',
-    // timeTable: _.map(Array(13), () => {
-    //   return _.map(Array(5), () => [{}, 0])
-    // })
+      studentDept: ''
     }
   },
   mounted() {
-    // 學士班->U, 碩班->G, 夜校->N, 其他->O
-    // let careerType = ['U', 'G', 'N', 'O']
-    // let careerRequest = []
     setTimeout(() => {
       if (!_.isUndefined(window.localStorage['creditSummary'])) {
         this.activePage = 1
@@ -35,33 +29,6 @@ var vm = new Vue({
         this.activePage = 0
       }
     }, 500)
-
-    // this.timeTable = _.map(Array(13), () => {
-    //   return _.map(Array(5), () => [{}, 0])
-    // })
-
-    // $.each(careerType, (key, val) => {
-    //   careerRequest.push($.getJSON('../data/career_' + val + '.json'))
-    // })
-    // $.when
-    //   .apply($, careerRequest)
-    //   .then((...careerData) => {
-    //     $.each(careerData, (ik, iv) => {
-    //       $.each(iv[0]['course'], (jk, course) => {
-    //         _.setWith(this.courseCode, [course.code], course, Object)
-    //       })
-    //     })
-
-    //     if (!_.isUndefined(window.localStorage['creditSummary'])) {
-    //       this.activePage = 1
-    //       this.creditSummary = JSON.parse(window.localStorage['creditSummary'])
-
-  //       this.calcCredit()
-  //       this.progressInit()
-  //     }else {
-  //       this.activePage = 0
-  //     }
-  //   })
   },
   computed: {
     totCredit() {
@@ -96,8 +63,8 @@ var vm = new Vue({
       }
     },
     navTitle() {
-      if (this.activePage === 1) return '學分統計'
-      else if (this.activePage === 2) return '學分列表'
+      if (this.activePage === 1) return '畢業學分統計'
+      else if (this.activePage === 2) return '畢業學分列表'
       else if (this.activePage === 3) return '課表'
       else if (this.activePage === 4) return '個人資料'
       else if (this.activePage === 5) return '項目列表'
@@ -132,7 +99,7 @@ var vm = new Vue({
     getData(data) {
       _.each(data, (val) => {
         let year = _.toString(val['學年']) + _.toString(val['學期'])
-        let subject = val['所屬項目']
+        let subject = val['課程別']
         if (!_.has(this.creditSummary, [year, 'total'])) {
           _.setWith(this.creditSummary, [year, 'total'], [], Object)
         }
@@ -146,13 +113,14 @@ var vm = new Vue({
         let credits = 0
         let getCredits = 0
         _.each(this.creditSummary[year]['total'], (jv) => {
-          let credit = jv['畢業學分']
-          let score = jv['成績']
+          let credit = _.parseInt(jv['畢業學分'])
+          let score = _.parseInt(jv['成績'])
           credits += credit
           if (score >= 60) {
             getCredits += credit
           }
         })
+
         this.creditSummary[year]['credits'] = credits
         this.creditSummary[year]['getCredits'] = getCredits
       })
@@ -161,38 +129,46 @@ var vm = new Vue({
       this.saveToStorage()
     },
     calcCredit() {
+      console.log(this.creditSummary)
       $.each(this.creditSummary, (ik, iv) => {
         $.each(iv['total'], (jk, jv) => {
-          let project = jv['所屬項目']
+          let classification = jv['課程分類']
+          let title = jv['課程名稱']
 
-          if (project === '英文畢業門檻') {
+          if (title === '英文能力檢定及輔導') {
+            console.log(jv['成績'])
             if (jv['成績'] >= 60) {
               this.otherThreshold.english = true
             }
           }
-          else if (project === '服務學習') {
+          else if (classification === '服務學習') {
             if (jv['成績'] < 60) {
               this.otherThreshold.service = false
             }
-          } else {
+          }else {
+            let category = jv['課程別']
             let type
-            if (project === '本系專業必修課程') {
+            if (category === '通' || title === '大一英文' || title === '大學國文') {
+              console.log('通')
+              type = this.thresholdInfo.general
+            }
+            else if (category === '必') {
+              console.log('必')
               type = this.thresholdInfo.major
             }
-            else if (project === '本系選修課程') {
+            else if (category === '選') {
+              console.log('選')
               type = this.thresholdInfo.elective
             }
-            else if (project === '體育') {
+            else if (category === '體') {
+              console.log('體')
               type = this.thresholdInfo.sport
-            }
-            else if (project.search('通識') !== -1 || project === '大學國文' || project === '大一英文') {
-              type = this.thresholdInfo.general
             }else {
               type = this.thresholdInfo.other
             }
 
             if (jv['成績'] >= 60) {
-              type.credit += jv['畢業學分']
+              type.credit += _.parseInt(jv['畢業學分'])
             }
             type.course.push(jv)
           }
@@ -268,12 +244,12 @@ var vm = new Vue({
     editNeedCredit(type, event) {
       event.stopPropagation()
       swal({
-        title: '修改畢業' + type + '學分',
+        title: '修改畢業' + type + '畢業學分',
         input: 'text',
         showCancelButton: true,
         closeOnConfirm: false,
         animation: true,
-        inputPlaceholder: '畢業' + type + '學分'
+        inputPlaceholder: '畢業' + type + '畢業學分'
       }).then((inputVal) => {
         let caredit = _.parseInt(inputVal)
         if (!_.isNaN(caredit)) {
@@ -291,14 +267,14 @@ var vm = new Vue({
             return false
           }
 
-          swal('修改成功', '已經將畢業' + type + '學分修改為' + caredit + '學分', 'success')
+          swal('修改成功', '已經將畢業' + type + '畢業學分修改為' + caredit + '畢業學分', 'success')
         }else {
           swal('錯誤', '請填入正確數字', 'error')
         }
       })
     },
     getCourseInfo(info) {
-      let html = '<ul class="courseInfo"><li>學年：' + info['學年'] + '</li><li>學期：' + info['學期'] + '</li><li>選課號碼：' + info['選課號碼'] + '</li><li>課程名稱：' + info['課程名稱'] + '</li><li>開課系所：' + info['開課系所'] + '</li><li>學分：' + info['畢業學分'] + '</li><li>成績：' + info['成績'] + '</li><li>所屬項目：' + info['所屬項目'] + '</li></ul>'
+      let html = '<ul class="courseInfo"><li>學年：' + info['學年'] + '</li><li>學期：' + info['學期'] + '</li><li>選課號碼：' + info['選課號碼'] + '</li><li>課程名稱：' + info['課程名稱'] + '</li><li>開課系所：' + info['開課系所'] + '</li><li>畢業學分：' + info['畢業學分'] + '</li><li>成績：' + info['成績'] + '</li></ul>'
 
       swal({
         title: '詳細資料',
@@ -429,22 +405,23 @@ var vm = new Vue({
       $('#login button').fadeOut()
       $('.loading').css('opacity', 1)
 
-      $.post(url, loginData, (inputData) => {
-        let input = JSON.parse(inputData)
-        if (inputData !== 'error' && input['studentName'] !== '') {
-          this.activePage = 1
+      $
+        .post(url, loginData, (inputData) => {
+          let input = JSON.parse(inputData)
+          if (inputData !== 'error' && input['studentName'] !== '') {
+            this.activePage = 1
 
-          this.studentName = input['studentName']
-          this.studentDept = input['studentDept']
-          this.getData(input['courseList'])
-        }else {
-          this.studentId = ''
-          this.studentPw = ''
-          sweetAlert('Oops...', '請確認學號及密碼是否正確', 'error')
-        }
-        $('#login button').show()
-        $('.loading').css('opacity', 0)
-      })
+            this.studentName = input['studentName']
+            this.studentDept = input['studentDept']
+            this.getData(input['courseList'])
+          }else {
+            this.studentId = ''
+            this.studentPw = ''
+            sweetAlert('Oops...', '請確認學號及密碼是否正確', 'error')
+          }
+          $('#login button').show()
+          $('.loading').css('opacity', 0)
+        })
         .fail(() => {
           sweetAlert('Oops...', '可能有什麼地方出錯了，請再重新確認網路狀況再登入，如無法排除請洽粉絲專業回報問提', 'error')
           $('#login button').show()

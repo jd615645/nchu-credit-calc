@@ -8,8 +8,11 @@
   ul
     li(v-for='(courseData, key) in subjectList.course', v-bind:class='{ notpass: courseData["成績"] < 60 }')
       .list-text
-        p.title {{ courseData['課程名稱'] }}
-        p.subject {{ courseData['所屬項目'] }}
+          p.title {{ courseData['課程名稱'] }}
+          p.subject
+            span(v-if='courseData["課程分類"] !== ""') {{ courseData["課程分類"] }}
+            span(v-if='courseData["課程分類"] === "" && courseData["課程別"] !== "必"') 必修
+            span(v-if='courseData["課程分類"] === "" && courseData["課程別"] !== "選"') 選修
       .list-credit
         p.credit {{ courseData['畢業學分'] }}
       .list-icon(@click='getCourseInfo(courseData)')
