@@ -57,6 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 .vscode
-dest/
-dest.zip
+
+# dist
+dist/
+dist.zip
 list.json
