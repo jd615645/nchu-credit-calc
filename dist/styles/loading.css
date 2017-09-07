@@ -1,0 +1,14 @@
+#loading{width:100vw;height:100vh;background-color:#eee;position:fixed;z-index:5;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}
+#loading .loading{position:relative;height:90px;width:90px;margin:80px auto;border:none}
+#loading .square{position:absolute;height:40px;width:40px;background:#3498db;opacity:.2}
+#loading .square-a{-webkit-animation:fadeIn .8s infinite;animation:fadeIn .8s infinite}
+#loading .state1a{top:0;left:0}
+#loading .state2a{top:0;left:50px;-webkit-animation-delay:.2s;animation-delay:.2s}
+#loading .state3a{top:50px;left:50px;-webkit-animation-delay:.4s;animation-delay:.4s}
+#loading .state4a{top:50px;left:0;-webkit-animation-delay:.6s;animation-delay:.6s}
+@-webkit-keyframes fadeIn{0%{opacity:.2}
+10%{opacity:1}
+}
+@keyframes fadeIn{0%{opacity:.2}
+10%{opacity:1}
+}

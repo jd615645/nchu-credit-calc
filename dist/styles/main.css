@@ -1,0 +1,73 @@
+#app,body,nav header{position:relative}
+#courseList ul li:first-child,#list ul li:first-child,#profile ul li:first-child,#subjectList ul li:first-child,#totCourseList ul li:first-child,footer{border-top:1px solid #d1d4d7}
+#profile ul,footer ul{padding-left:0;list-style:none}
+#creditCalc .block-calc,#profile ul li,nav{border-bottom:1px solid #d1d4d7}
+#app,body{font-family:Roboto,'黑體-繁','Microsoft JhengHei',sans-serif;width:100%;background-color:#f5f6f7}
+.mainPage{height:100%;width:100%;margin:50px 0}
+footer,nav{-webkit-box-orient:vertical;-webkit-box-direction:normal;position:fixed;z-index:2;height:50px;background-color:#fff;width:100%;display:-webkit-box;display:-ms-flexbox}
+h3,p{margin:0}
+h2{font-size:1.5em}
+h3{font-size:1.2em}
+[v-cloak]{display:none}
+nav{display:flex;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;top:0;-webkit-box-shadow:0 0 5px rgba(0,0,0,.1);box-shadow:0 0 5px rgba(0,0,0,.1)}
+nav header h1{margin:0;font-size:1.3em;text-align:center}
+nav header #setting{margin-right:5px;font-size:1.3em;color:#888;position:absolute;top:0;right:0}
+nav header #setting:focus,nav header #setting:hover{color:#ddd}
+footer{display:flex;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;bottom:0;-webkit-box-shadow:5px 0 0 0 rgba(0,0,0,.1);box-shadow:5px 0 0 0 rgba(0,0,0,.1)}
+footer ul{height:100%;margin-bottom:0}
+footer ul li{float:left;height:100%;width:33%}
+footer ul li.active p,footer ul li.focus p,footer ul li.hover p{color:#3498db}
+footer ul li p{color:#888;text-align:center;margin-bottom:0}
+footer ul li p:nth-child(1){font-size:1.5em!important}
+@media screen and (min-width:749px){#mobileNav,footer{display:none}
+}
+@media screen and (max-width:750px){#creditCalc.container{padding:0}
+#webNav{display:none}
+}
+#creditCalc table{width:100%}
+#creditCalc table td{padding:0 10px}
+#creditCalc table .block-calc:nth-child(1){border-right:1px solid #d1d4d7}
+#creditCalc .block-calc{position:relative}
+#creditCalc .block-calc:nth-child(1){border-right:1px solid #d1d4d7}
+#creditCalc .block-calc .category{position:absolute;top:5px;font-size:1.3em}
+#creditCalc .block-calc .editNeed{color:#888;font-size:1.2em;position:absolute;top:10px;right:10px}
+#creditCalc .block-calc .editNeed:focus,#creditCalc .block-calc .editNeed:hover{color:#ddd}
+#creditCalc #tot .calc{font-size:1.8em}
+#creditCalc .calc{font-size:1.5em;text-align:center}
+#creditCalc #english,#creditCalc #other,#creditCalc #service,#subjectList h3{font-size:1.3em;padding:10px 0}
+.circle-progress .highcharts-credits,.circle-progress .timer,.circle-progress svg g{display:none}
+#subjectList .subjectInfo{display:-webkit-box;display:-ms-flexbox;display:flex}
+#subjectList .subjectList,#subjectList .subjectTitle{width:50%}
+#subjectList .subjectList{text-align:right}
+#courseList ul,#list ul,#subjectList ul,#totCourseList ul{height:100%;padding-left:0;list-style:none}
+#courseList ul li,#list ul li,#subjectList ul li,#totCourseList ul li{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;color:#888;padding:5px 0;border-bottom:1px solid #d1d4d7}
+#courseList ul li.notpass,#list ul li.notpass,#subjectList ul li.notpass,#totCourseList ul li.notpass{color:#FF4545}
+#courseList ul li .list-text,#list ul li .list-text,#subjectList ul li .list-text,#totCourseList ul li .list-text{height:50px;width:80%}
+#courseList ul li .list-credit,#courseList ul li .list-icon,#courseList ul li .list-setting,#list ul li .list-credit,#list ul li .list-icon,#list ul li .list-setting,#subjectList ul li .list-credit,#subjectList ul li .list-icon,#subjectList ul li .list-setting,#totCourseList ul li .list-credit,#totCourseList ul li .list-icon,#totCourseList ul li .list-setting{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;height:50px;width:10%;border-left:1px solid #d1d4d7}
+#courseList ul li .list-icon:hover,#courseList ul li .list-setting:hover,#list ul li .list-icon:hover,#list ul li .list-setting:hover,#subjectList ul li .list-icon:hover,#subjectList ul li .list-setting:hover,#totCourseList ul li .list-icon:hover,#totCourseList ul li .list-setting:hover{color:#3498db}
+#courseList ul li .title,#list ul li .title,#subjectList ul li .title,#totCourseList ul li .title{font-size:1.2em;padding-bottom:5px}
+#courseList ul li .subject,#list ul li .subject,#subjectList ul li .subject,#totCourseList ul li .subject{font-size:1em}
+#courseList ul li .subject,#courseList ul li .title,#list ul li .subject,#list ul li .title,#subjectList ul li .subject,#subjectList ul li .title,#totCourseList ul li .subject,#totCourseList ul li .title{text-align:left}
+#courseList ul li p,#list ul li p,#subjectList ul li p,#timetable .title,#totCourseList ul li p{text-align:center}
+#timetable .title{font-size:1.5em}
+#timetable table{width:100%;margin-bottom:10px}
+#timetable th{width:19%}
+#timetable th:first-child{width:5%}
+#timetable td,#timetable th{border:1px solid #666;text-align:center;color:#666;height:30px}
+.courseInfo li{text-align:left}
+.web-info p{text-align:center}
+.yaer-title .year{text-align:left}
+.creditRatio{text-align:right}
+#profile button{border:none;cursor:pointer;border-radius:3px;background:#eee;padding:6px;width:100%;color:#fff;display:block;margin:0 auto;-webkit-box-shadow:0 3px 6px 0 rgba(0,0,0,.2);box-shadow:0 3px 6px 0 rgba(0,0,0,.2)}
+#profile button:hover{-webkit-transform:translateY(-3px);-ms-transform:translateY(-3px);transform:translateY(-3px);-webkit-box-shadow:0 6px 6px 0 rgba(0,0,0,.2);box-shadow:0 6px 6px 0 rgba(0,0,0,.2)}
+#profile button.login{background-color:#F49393}
+#profile button.save{margin-bottom:5px;background-color:#6892D5}
+#profile ul{height:100%}
+#profile ul li{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;color:#888;padding:5px 0;text-align:left;font-size:1.3em}
+#profile ul li .list-text{width:60%}
+#profile ul li .list-info{width:40%}
+#profile ul li .list-info p{text-align:right}
+#profile ul li .list-icon{border-right:1px solid #d1d4d7}
+#profile ul li p{text-align:center}
+#profile ul li label{border:1px solid #3498db;color:#3498db}
+#profile ul li .active{background-color:#3498db;color:#eee}

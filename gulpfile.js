@@ -1,7 +1,10 @@
-var gulp = require('gulp')
-var $ = require('gulp-load-plugins')()
+const gulp = require('gulp')
+const $ = require('gulp-load-plugins')()
+const autoprefixer = require('gulp-autoprefixer')
+const minifyCSS = require('gulp-minify-css')
+const uglify = require('gulp-uglify')
 
-var paths = {
+const paths = {
   src: {
     less: './src/styles/less/*.less',
     css: './src/styles/css/*.css',
@@ -12,14 +15,14 @@ var paths = {
     images: './src/img/**',
     config: './src/*.xml'
   },
-  dest: {
-    html: './dest',
-    css: './dest/styles',
-    js: './dest/js',
-    libs: './dest/js/libs',
-    data: './dest/data',
-    images: './dest/img',
-    config: './dest'
+  dist: {
+    html: './dist',
+    css: './dist/styles',
+    js: './dist/js',
+    libs: './dist/js/libs',
+    data: './dist/data',
+    images: './dist/img',
+    config: './dist'
 
   }
 }
@@ -27,17 +30,24 @@ var paths = {
 gulp.task('pug', () => {
   gulp.src(paths.src.pug)
     .pipe($.pug())
-    .pipe(gulp.dest('./dest'))
+    .pipe(gulp.dest('./dist'))
 })
 
 gulp.task('less', () => {
   gulp.src(paths.src.less)
     .pipe($.less())
-    .pipe(gulp.dest(paths.dest.css))
+    .pipe(autoprefixer({
+      browsers: ['last 3 versions'],
+      cascade: false
+    }))
+    .pipe(minifyCSS({
+      keepBreaks: true
+    }))
+    .pipe(gulp.dest(paths.dist.css))
 })
 gulp.task('css', () => {
   gulp.src(paths.src.css)
-    .pipe(gulp.dest(paths.dest.css))
+    .pipe(gulp.dest(paths.dist.css))
 })
 
 gulp.task('scripts', () => {
@@ -45,33 +55,34 @@ gulp.task('scripts', () => {
     .pipe($.babel({
       presets: ['es2015']
     }))
-    .pipe(gulp.dest(paths.dest.js))
+    .pipe(uglify())
+    .pipe(gulp.dest(paths.dist.js))
 })
 
 gulp.task('libs', () => {
   gulp.src(paths.src.libs)
-    .pipe(gulp.dest(paths.dest.libs))
+    .pipe(gulp.dest(paths.dist.libs))
 })
 
 gulp.task('data', () => {
   gulp.src(paths.src.data)
-    .pipe(gulp.dest(paths.dest.data))
+    .pipe(gulp.dest(paths.dist.data))
 })
 
 gulp.task('images', () => {
   gulp.src(paths.src.images)
     .pipe($.imagemin())
-    .pipe(gulp.dest(paths.dest.images))
+    .pipe(gulp.dest(paths.dist.images))
 })
 
 gulp.task('config', () => {
   gulp.src(paths.src.config)
-    .pipe(gulp.dest(paths.dest.config))
+    .pipe(gulp.dest(paths.dist.config))
 })
 
 gulp.task('webserver', () => {
   gulp
-    .src(paths.dest.html)
+    .src(paths.dist.html)
     .pipe($.webserver({
       port: 8080,
       livereload: true,
