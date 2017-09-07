@@ -1,2 +1,0 @@
-<div class="mainPage container" id="timetable" v-if="activePage == 3"><h1 class="title">103
-上學期</h1><table><thead><tr><th v-for="day in [&quot;&quot;, &quot;一&quot;, &quot;二&quot;, &quot;三&quot;, &quot;四&quot;, &quot;五&quot;]">{{ day }}</th></tr></thead><tbody><tr v-for="(course, index) in timeTable" v-if="index &lt; tableView"><td>{{ index+1 }}</td><td v-for="(courseTitle, key) in course"><div class="course" v-if="!_.isEmpty(courseTitle[0])"><p>{{ courseTitle }}</p></div></td></tr></tbody></table></div>
