@@ -146,8 +146,11 @@ var vm = new Vue({
           }else {
             let category = jv['課程別']
             let type
-            if (category === '通' || title === '大一英文' || title === '大學國文') {
+            if (category === '通' || classification === '大一英文' || classification === '大學國文') {
               type = this.thresholdInfo.general
+            }
+            else if (classification === '國防教育') {
+              type = this.thresholdInfo.other
             }
             else if (category === '必') {
               type = this.thresholdInfo.major
