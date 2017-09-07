@@ -1,18 +1,14 @@
 footer
   ul
-    li(v-bind:class='{ active: activePage === 1 }', v-on:click='switchPage(1)')
+    li(:class='{ active: activePage === 1 }', @click='switchPage(1)')
       p
         i.fa.fa-fw.fa-pie-chart
       p 學分統計
-    li(v-bind:class='{ active: activePage === 2 }', v-on:click='switchPage(2)')
+    li(:class='{ active: activePage === 2 }', @click='switchPage(2)')
       p
         i.fa.fa-fw.fa-list
       p 學分列表
-    //- li(v-bind:class='{ active: activePage === 3 }', v-on:click='switchPage(3)')
-    //-   p
-    //-     i.fa.fa-fw.fa-table
-    //-   p 課表
-    li(v-bind:class='{ active: activePage === 4 }', v-on:click='switchPage(4)')
+    li(:class='{ active: activePage === 3 }', @click='switchPage(4)')
       p
         i.fa.fa-fw.fa-user-circle
       p 帳戶設定

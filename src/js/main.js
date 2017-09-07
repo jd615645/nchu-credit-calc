@@ -259,6 +259,9 @@ var vm = new Vue({
             else if (type === '選修') {
               this.thresholdInfo.elective.needCredit = caredit
             }
+            else if (type === '通識') {
+              this.thresholdInfo.general.needCredit = caredit
+            }
           } else {
             swal.showInputError('請填寫正確數值!')
             return false

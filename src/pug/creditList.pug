@@ -1,15 +1,15 @@
-#list.mainPage.container(v-if='activePage == 2')
+#list.mainPage.container(v-if='activePage === 2')
   div(v-for='(iv, years) in creditSummary')
     .row.yaerTitle
       .col-xs-7
-        h2.year(v-bind:id='years') {{ years }} 學期
+        h2.year(:id='years') {{ years }} 學期
       .col-xs-5
         h2.creditRatio
           | {{ iv['getCredits'] }}
           | /
           | {{ iv['credits'] }}
     ul
-      li(v-for='(courseData, jk) in iv["total"]', v-bind:class='{ notpass: courseData["成績"] < 60 }', v-on:click='getCourseInfo(courseData)')
+      li(v-for='(courseData, jk) in iv["total"]', :class='{ notpass: courseData["成績"] < 60 }', @click='getCourseInfo(courseData)')
         .list-text
           p.title {{ courseData['課程名稱'] }}
           p.subject

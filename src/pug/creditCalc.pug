@@ -1,4 +1,4 @@
-#creditCalc.mainPage.container(v-if='activePage == 1')
+#creditCalc.mainPage.container(v-if='activePage === 1')
   #webView.hidden-xs.hidden-12
     .col-sm-6
       .block-calc
@@ -23,7 +23,7 @@
             | /
             | {{ totNeedCredit }}
           .credit-progress
-            .progressbar(v-bind:style="{ width: totPersent }")
+            .progressbar(:style="{ width: totPersent }")
     .col-sm-6
       #majorBlock.block-calc(@click='showCourseType("major")')
         .block-img(type='major')
@@ -34,7 +34,7 @@
             | /
             | {{ thresholdInfo.major.needCredit }}
           .credit-progress
-            .progressbar(v-bind:style='{ width: majorPersent }')
+            .progressbar(:style='{ width: majorPersent }')
         i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCredit("必修", $event)')
     .col-sm-6
       #electiveBlock.block-calc(@click='showCourseType("elective")')
@@ -46,7 +46,7 @@
             | /
             | {{ thresholdInfo.elective.needCredit }}
           .credit-progress
-            .progressbar(v-bind:style='{ width: electivePersent }')
+            .progressbar(:style='{ width: electivePersent }')
         i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCredit("選修", $event)')
     .col-sm-6
       #generalBlock.block-calc(@click='showCourseType("general")')
@@ -58,7 +58,8 @@
             | /
             | {{ thresholdInfo.general.needCredit }}
           .credit-progress
-            .progressbar(v-bind:style='{ width: generalPersent }')
+            .progressbar(:style='{ width: generalPersent }')
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCredit("通識", $event)')
     .col-sm-6
       #sportBlock.block-calc(@click='showCourseType("sport")')
         .block-img(type='sport')
@@ -69,7 +70,7 @@
             | /
             | {{ thresholdInfo.sport.needCredit }}
           .credit-progress
-            .progressbar(v-bind:style='{ width: sportPersent }')
+            .progressbar(:style='{ width: sportPersent }')
     .col-sm-6
       #otherBlock.block-calc(@click='showCourseType("other")')
         .block-img(type='other')
@@ -125,6 +126,7 @@
           | /
           | {{ thresholdInfo.general.needCredit }}
         .category 通識
+        i.editNeed.fa.fa-fw.fa-pencil(@click='editNeedCredit("通識", $event)')
       td#sport.block-calc(@click='showList("sport")')
         .circle-progress
         .calc
