@@ -129,14 +129,12 @@ var vm = new Vue({
       this.saveToStorage()
     },
     calcCredit() {
-      console.log(this.creditSummary)
       $.each(this.creditSummary, (ik, iv) => {
         $.each(iv['total'], (jk, jv) => {
           let classification = jv['課程分類']
           let title = jv['課程名稱']
 
           if (title === '英文能力檢定及輔導') {
-            console.log(jv['成績'])
             if (jv['成績'] >= 60) {
               this.otherThreshold.english = true
             }
@@ -149,19 +147,15 @@ var vm = new Vue({
             let category = jv['課程別']
             let type
             if (category === '通' || title === '大一英文' || title === '大學國文') {
-              console.log('通')
               type = this.thresholdInfo.general
             }
             else if (category === '必') {
-              console.log('必')
               type = this.thresholdInfo.major
             }
             else if (category === '選') {
-              console.log('選')
               type = this.thresholdInfo.elective
             }
             else if (category === '體') {
-              console.log('體')
               type = this.thresholdInfo.sport
             }else {
               type = this.thresholdInfo.other
