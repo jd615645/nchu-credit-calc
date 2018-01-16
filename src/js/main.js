@@ -394,9 +394,9 @@ var vm = new Vue({
     },
     login(e) {
       e.preventDefault()
-      let url = 'https://login.hsingpicking.com.tw/'
+      // let url = 'https://login.hsingpicking.com.tw/'
       // test
-      // let url = 'http://127.0.0.1:3001/'
+      let url = 'http://127.0.0.1:3001/'
       let loginData = {
         'id': this.studentId,
         'pw': this.studentPw
