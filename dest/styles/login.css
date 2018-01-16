@@ -1,0 +1,85 @@
+#login {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 3;
+  background: #eee url('../img/loginbg.png') repeat center center;
+}
+#login input::-webkit-input-placeholder,
+#login button {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+#login form {
+  box-sizing: border-box;
+  width: 300px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px 0px 40px;
+  border-radius: 3px;
+}
+#login .hint {
+  color: #7d7575;
+  text-align: center;
+  margin-bottom: 5px;
+}
+#login .loading {
+  margin-top: 10px;
+  color: #444;
+  display: block;
+  margin: 0px auto;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 25px;
+}
+#login input {
+  margin: 10px auto;
+  width: 200px;
+  display: block;
+  border: none;
+  padding: 20px 0px 10px;
+  border-bottom: solid 1px #3498db;
+  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  background: linear-gradient(rgba(255, 255, 255, 0) 96%, #3498db 4%);
+  background-position: -200px 0;
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+}
+#login input:focus,
+#login input:valid {
+  box-shadow: none;
+  outline: none;
+  background-position: 0 0;
+}
+#login input:focus::-webkit-input-placeholder,
+#login input:valid::-webkit-input-placeholder {
+  color: #3498db;
+  font-size: 11px;
+  -webkit-transform: translateY(-20px);
+  transform: translateY(-20px);
+  visibility: visible !important;
+}
+#login button {
+  border: none;
+  background: #3498db;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 6px;
+  width: 200px;
+  color: #fff;
+  display: block;
+  margin: 0px auto;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+}
+#login button:hover {
+  -webkit-transform: translateY(-3px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.2);
+}
